@@ -129,5 +129,11 @@ namespace talktalk
                 PlotData(lines);
             }
         }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            Account account = new Account();
+            DialogResult dResult = account.ShowDialog();
+        }
     }
 }
