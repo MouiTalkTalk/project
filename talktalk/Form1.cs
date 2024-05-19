@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace talktalk
 {
@@ -15,6 +17,16 @@ namespace talktalk
         public Form1()
         {
             InitializeComponent();
+            InitializeChart();
+        }
+
+        private void InitializeChart()
+        {
+            ChartArea chartArea = new ChartArea();
+            chart1.ChartAreas.Add(chartArea);
+
+            chart1.Legends.Clear();
+            chartArea.Position = new ElementPosition(0, 0, 100, 100);
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
@@ -59,6 +71,62 @@ namespace talktalk
                     stockPrice.ForeColor = Color.Black;
                     stockUpdown.ForeColor = Color.Black;
                 }
+            }
+        }
+
+        private void PlotData(string[] csvLines)
+        {
+            chart1.Series.Clear();
+            chart1.ChartAreas.Clear();
+
+            ChartArea chartArea = new ChartArea();
+            chart1.ChartAreas.Add(chartArea);
+
+            Series series = new Series(stockName.Text);
+            series.ChartType = SeriesChartType.Line;
+
+            series.BorderWidth = 3;
+
+            List<double> closePrices = new List<double>();
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                string[] data = csvLines[i].Split(',');
+                double close = double.Parse(data[1]);
+                closePrices.Add(close);
+            }
+
+            double minClose = closePrices.Min();
+            double maxClose = closePrices.Max();
+
+            maxClose = Math.Ceiling(maxClose / 10000) * 10000;
+            minClose = Math.Floor(minClose / 10000) * 10000;
+
+            chart1.ChartAreas[0].AxisY.Minimum = minClose;
+            chart1.ChartAreas[0].AxisY.Maximum = maxClose;
+
+            double averageInterval = (maxClose - minClose) / 5;
+            chart1.ChartAreas[0].AxisY.Interval = averageInterval;
+
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                string[] data = csvLines[i].Split(',');
+                string date = data[0];
+                double close = double.Parse(data[1]);
+
+                series.Points.AddXY(date, close);
+            }
+
+            chart1.Series.Add(series);
+        }
+
+        private void guna2Button14_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] lines = File.ReadAllLines(openFileDialog.FileName);
+                PlotData(lines);
             }
         }
     }
