@@ -31,7 +31,7 @@ namespace talktalk
 
         private void guna2Button4_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void Form1_Load(object sender, EventArgs e)
