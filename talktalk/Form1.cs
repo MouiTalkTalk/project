@@ -135,5 +135,11 @@ namespace talktalk
             Account account = new Account();
             DialogResult dResult = account.ShowDialog();
         }
+
+        private void guna2Button9_Click(object sender, EventArgs e)
+        {
+            Ranking ranking = new Ranking();
+            DialogResult dResult = ranking.ShowDialog();
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace talktalk
         private void Account_Load(object sender, EventArgs e)
         {
             dataGridView1.RowHeadersVisible = false;
-
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             foreach (DataGridViewColumn column in dataGridView1.Columns)

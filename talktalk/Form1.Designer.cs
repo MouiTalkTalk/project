@@ -141,6 +141,7 @@
             this.guna2Button9.Size = new System.Drawing.Size(187, 60);
             this.guna2Button9.TabIndex = 8;
             this.guna2Button9.Text = "Rank";
+            this.guna2Button9.Click += new System.EventHandler(this.guna2Button9_Click);
             // 
             // guna2Button4
             // 
