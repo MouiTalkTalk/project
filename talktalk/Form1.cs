@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ClassLibrary;
+using PacketClient;
+using PacketServer;
 
 namespace talktalk
 {
@@ -18,6 +21,13 @@ namespace talktalk
         {
             InitializeComponent();
             InitializeChart();
+        }
+
+        public Form1(string userID)
+        {
+            InitializeComponent();
+            InitializeChart();
+            label2.Text = userID;
         }
 
         private void InitializeChart()
@@ -140,6 +150,14 @@ namespace talktalk
         {
             Ranking ranking = new Ranking();
             DialogResult dResult = ranking.ShowDialog();
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e)
+        {
+            PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+            PacketServer.Server serverForm = new PacketServer.Server();
+            clientForm.Show();
+            serverForm.Show();
         }
     }
 }
