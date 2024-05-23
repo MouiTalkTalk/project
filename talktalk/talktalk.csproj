@@ -114,19 +114,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\TeamProject\ClassLibrary\ClassLibrary.csproj">
-      <Project>{16204d09-4edf-44ed-ac0b-6b795a10700c}</Project>
-      <Name>ClassLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TeamProject\PacketClient\PacketClient.csproj">
-      <Project>{e27dd995-b35d-4530-903b-6b253e5625c6}</Project>
-      <Name>PacketClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TeamProject\PacketServer\PacketServer.csproj">
-      <Project>{ac136d50-983e-42f0-b6aa-886b081fe167}</Project>
-      <Name>PacketServer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
