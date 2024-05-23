@@ -44,12 +44,14 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.rankingPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // rankingPanel
             // 
             this.rankingPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.rankingPanel.Controls.Add(this.guna2Button2);
             this.rankingPanel.Controls.Add(this.guna2Button1);
             this.rankingPanel.Controls.Add(this.label5);
             this.rankingPanel.Controls.Add(this.lblMyRatio);
@@ -79,9 +81,9 @@
             this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(287, 25);
+            this.guna2Button1.Location = new System.Drawing.Point(12, 23);
             this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(88, 39);
+            this.guna2Button1.Size = new System.Drawing.Size(72, 42);
             this.guna2Button1.TabIndex = 27;
             this.guna2Button1.Text = "Test";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
@@ -240,6 +242,22 @@
             this.label2.Text = "투자 랭킹";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // guna2Button2
+            // 
+            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button2.FillColor = System.Drawing.Color.Gray;
+            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button2.ForeColor = System.Drawing.Color.White;
+            this.guna2Button2.Location = new System.Drawing.Point(298, 12);
+            this.guna2Button2.Name = "guna2Button2";
+            this.guna2Button2.Size = new System.Drawing.Size(73, 30);
+            this.guna2Button2.TabIndex = 31;
+            this.guna2Button2.Text = "Exit";
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
+            // 
             // Ranking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -272,5 +290,6 @@
         private System.Windows.Forms.Label lblMyName;
         private System.Windows.Forms.Label lblMyRank;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button guna2Button2;
     }
 }

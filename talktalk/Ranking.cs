@@ -17,6 +17,7 @@ namespace talktalk
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
@@ -79,5 +80,9 @@ namespace talktalk
             }
         }
 
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
