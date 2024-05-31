@@ -14,10 +14,15 @@ namespace talktalk
 {
     public partial class Form1 : Form
     {
+        private Timer timer;
+        private string[] lastTenData;
+        private int currentIndex;
+
         public Form1()
         {
             InitializeComponent();
             InitializeChart();
+            InitializeTimer();
         }
 
         private void InitializeChart()
@@ -27,6 +32,13 @@ namespace talktalk
 
             chart1.Legends.Clear();
             chartArea.Position = new ElementPosition(0, 0, 100, 100);
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = 1000; // 1 seconds
+            timer.Tick += new EventHandler(OnTimerTick);
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
@@ -107,7 +119,7 @@ namespace talktalk
             double averageInterval = (maxClose - minClose) / 5;
             chart1.ChartAreas[0].AxisY.Interval = averageInterval;
 
-            for (int i = 1; i < csvLines.Length; i++)
+            for (int i = 1; i < csvLines.Length - 10; i++)
             {
                 string[] data = csvLines[i].Split(',');
                 string date = data[0];
@@ -116,7 +128,28 @@ namespace talktalk
                 series.Points.AddXY(date, close);
             }
 
+            lastTenData = csvLines.Skip(csvLines.Length - 10).ToArray();
+            currentIndex = 0;
+
             chart1.Series.Add(series);
+            timer.Start();
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            if (currentIndex < lastTenData.Length)
+            {
+                string[] data = lastTenData[currentIndex].Split(',');
+                string date = data[0];
+                double close = double.Parse(data[1]);
+
+                chart1.Series[0].Points.AddXY(date, close);
+                currentIndex++;
+            }
+            else
+            {
+                timer.Stop();
+            }
         }
 
         private void guna2Button14_Click(object sender, EventArgs e)
