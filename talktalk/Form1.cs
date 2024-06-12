@@ -53,6 +53,18 @@ namespace talktalk
             String[] samsung = { "01", "삼성전자", "78,300", "up", "0.03%" };
             ListViewItem newitem = new ListViewItem(samsung);
             listView1.Items.Add(newitem);
+            String[] naver = { "02", "NAVER", "172,700", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(naver));
+            String[] hyundai = { "03", "현대차", "265,000", "down", "-0.1%" };
+            listView1.Items.Add(new ListViewItem(hyundai));
+            String[] celltrion = { "04", "셀트리온", "179,000", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(celltrion));
+            String[] kb = { "05", "KB금융그룹", "79,300", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(kb));
+            String[] krafton = { "06", "크래프톤", "247,500", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(krafton));
+            String[] lgenergysolution = { "07", "LG에너지솔루션", "333,200", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(lgenergysolution));
         }
 
         private void lstAdress(object sender, MouseEventArgs e)
