@@ -14,10 +14,15 @@ namespace talktalk
 {
     public partial class Form1 : Form
     {
+        private Timer timer;
+        private string[] lastTenData;
+        private int currentIndex;
+
         public Form1()
         {
             InitializeComponent();
             InitializeChart();
+            InitializeTimer();
         }
 
         private void InitializeChart()
@@ -27,6 +32,13 @@ namespace talktalk
 
             chart1.Legends.Clear();
             chartArea.Position = new ElementPosition(0, 0, 100, 100);
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = 1000; // 1 seconds
+            timer.Tick += new EventHandler(OnTimerTick);
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
@@ -41,6 +53,18 @@ namespace talktalk
             String[] samsung = { "01", "삼성전자", "78,300", "up", "0.03%" };
             ListViewItem newitem = new ListViewItem(samsung);
             listView1.Items.Add(newitem);
+            String[] naver = { "02", "NAVER", "172,700", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(naver));
+            String[] hyundai = { "03", "현대차", "265,000", "down", "-0.1%" };
+            listView1.Items.Add(new ListViewItem(hyundai));
+            String[] celltrion = { "04", "셀트리온", "179,000", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(celltrion));
+            String[] kb = { "05", "KB금융그룹", "79,300", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(kb));
+            String[] krafton = { "06", "크래프톤", "247,500", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(krafton));
+            String[] lgenergysolution = { "07", "LG에너지솔루션", "333,200", "down", "-1.4%" };
+            listView1.Items.Add(new ListViewItem(lgenergysolution));
         }
 
         private void lstAdress(object sender, MouseEventArgs e)
@@ -107,7 +131,7 @@ namespace talktalk
             double averageInterval = (maxClose - minClose) / 5;
             chart1.ChartAreas[0].AxisY.Interval = averageInterval;
 
-            for (int i = 1; i < csvLines.Length; i++)
+            for (int i = 1; i < csvLines.Length - 10; i++)
             {
                 string[] data = csvLines[i].Split(',');
                 string date = data[0];
@@ -116,7 +140,28 @@ namespace talktalk
                 series.Points.AddXY(date, close);
             }
 
+            lastTenData = csvLines.Skip(csvLines.Length - 10).ToArray();
+            currentIndex = 0;
+
             chart1.Series.Add(series);
+            timer.Start();
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            if (currentIndex < lastTenData.Length)
+            {
+                string[] data = lastTenData[currentIndex].Split(',');
+                string date = data[0];
+                double close = double.Parse(data[1]);
+
+                chart1.Series[0].Points.AddXY(date, close);
+                currentIndex++;
+            }
+            else
+            {
+                timer.Stop();
+            }
         }
 
         private void guna2Button14_Click(object sender, EventArgs e)
