@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "talktalk", "talktalk\talktalk.csproj", "{0C687977-5199-44AC-8DD9-2021D781C76D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketServer", "..\TeamProject\PacketServer\PacketServer.csproj", "{AC136D50-983E-42F0-B6AA-886B081FE167}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{16204D09-4EDF-44ED-AC0B-6B795A10700C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketClient", "..\TeamProject\PacketClient\PacketClient.csproj", "{E27DD995-B35D-4530-903B-6B253E5625C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketClient", "PacketClient\PacketClient.csproj", "{E27DD995-B35D-4530-903B-6B253E5625C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "..\TeamProject\ClassLibrary\ClassLibrary.csproj", "{16204D09-4EDF-44ED-AC0B-6B795A10700C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketServer", "PacketServer\PacketServer.csproj", "{AC136D50-983E-42F0-B6AA-886B081FE167}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{0C687977-5199-44AC-8DD9-2021D781C76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C687977-5199-44AC-8DD9-2021D781C76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C687977-5199-44AC-8DD9-2021D781C76D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC136D50-983E-42F0-B6AA-886B081FE167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC136D50-983E-42F0-B6AA-886B081FE167}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC136D50-983E-42F0-B6AA-886B081FE167}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC136D50-983E-42F0-B6AA-886B081FE167}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E27DD995-B35D-4530-903B-6B253E5625C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E27DD995-B35D-4530-903B-6B253E5625C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E27DD995-B35D-4530-903B-6B253E5625C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E27DD995-B35D-4530-903B-6B253E5625C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16204D09-4EDF-44ED-AC0B-6B795A10700C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16204D09-4EDF-44ED-AC0B-6B795A10700C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16204D09-4EDF-44ED-AC0B-6B795A10700C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16204D09-4EDF-44ED-AC0B-6B795A10700C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27DD995-B35D-4530-903B-6B253E5625C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27DD995-B35D-4530-903B-6B253E5625C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27DD995-B35D-4530-903B-6B253E5625C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27DD995-B35D-4530-903B-6B253E5625C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC136D50-983E-42F0-B6AA-886B081FE167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC136D50-983E-42F0-B6AA-886B081FE167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC136D50-983E-42F0-B6AA-886B081FE167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC136D50-983E-42F0-B6AA-886B081FE167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

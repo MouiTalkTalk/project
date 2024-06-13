@@ -21,7 +21,7 @@ namespace PacketClient
         NetworkStream stream = default(NetworkStream);
         Thread chat;
 
-        string username;
+        string username = string.Empty;
         public const int PACKETSIZE = 1024 * 4;
 
         public Client()
@@ -29,9 +29,16 @@ namespace PacketClient
             InitializeComponent();
         }
 
+        public Client(string name)
+        {
+            InitializeComponent();
+            this.username = name;
+        }
+
         private void Client_Load(object sender, EventArgs e)
         {
             btnConnect.Enabled = false;
+            txtUserName.Text = username;
         }
 
         private void GetMessage() // 서버로부터 메시지 받는 함수, 스레드로 실행된다.
@@ -61,7 +68,7 @@ namespace PacketClient
                 switch ((int)packet.Type)
                 {
                     case (int)PacketType.메시지:
-                        {   
+                        {
                             UserMessage userMessage = (UserMessage)packet;
                             string message = userMessage.payload;
                             DisplayText(message);
@@ -69,7 +76,6 @@ namespace PacketClient
                         }
                 }
             }
-
         }
 
         private void DisplayText(string message)
@@ -110,22 +116,42 @@ namespace PacketClient
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            try
+            if (btnConnect.Text.Equals("서버와 연결"))
             {
-                client.Connect(IPAddress.Parse("127.0.0.1"), 15000);
-                stream = client.GetStream();
+                try
+                {
+                    btnConnect.Text = "연결 끊기";
+                    btnConnect.BackColor = Color.Beige;
+                    client.Connect(IPAddress.Parse("127.0.0.1"), 15000);
+                    stream = client.GetStream();
 
-                username = txtUserName.Text;
-                chat = new Thread(new ThreadStart(GetMessage)); // 연결이 되면 메시지를 받아주는 스레드 생성
-                clientState.Text = "서버와 연결됨";
-                chat.IsBackground = true;
-                chat.Start();
+                    username = txtUserName.Text;
+                    chat = new Thread(new ThreadStart(GetMessage)); // 연결이 되면 메시지를 받아주는 스레드 생성
+                    clientState.Text = "서버와 연결됨";
+                    chat.IsBackground = true;
+                    chat.Start();
+                }
+                catch
+                {
+                    MessageBox.Show("서버와 연결을 실패했습니다.");
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("서버와 연결을 실패했습니다.");
+                chat.Abort();
+
+                UserMessage send = new UserMessage();
+                byte[] buffer = new byte[PACKETSIZE];
+
+                send.Type = (int)PacketType.메시지;
+                send.payload = "LeaveChat";
+
+                buffer = Packet.Serialize(send);
+                stream.Write(buffer, 0, buffer.Length);
+                stream.Flush();
+                btnConnect.Text = "서버와 연결";
+                btnConnect.BackColor = Color.White;
             }
-            
         }
 
         private void txtUserName_TextChanged(object sender, EventArgs e)

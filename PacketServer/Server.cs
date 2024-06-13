@@ -130,8 +130,6 @@ namespace PacketServer
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.ToString());
-                        this.ServerOn = false;
                         break;
                     }
                 }
@@ -176,7 +174,6 @@ namespace PacketServer
                     }
                     catch (Exception e) // 오류 발생 시 예외 처리
                     {
-                        MessageBox.Show(e.ToString());
                         break;
                     }
 
@@ -193,10 +190,10 @@ namespace PacketServer
                                 {
                                     string displayMessage = userName + "님이 종료하셨습니다.";
 
+                                    user.userOn = false;
                                     DisplayText(displayMessage);
                                     SendMessageAll(displayMessage, userName, true);
 
-                                    user.userOn = false;
                                     break;
                                 }
                                 else
@@ -224,11 +221,13 @@ namespace PacketServer
                     }
                 }
             }
-            finally
+            catch
             {
                 DisplayText(userName + "의 연결에서 오류가 발생하여 연결을 종료하였습니다.");
                 SendMessageAll("오류가 발생하여 연결을 종료합니다.", userName, false);
-                SendMessageAll(userName + "님이 종료하셨습니다.", userName, true);
+            }
+            finally
+            {
                 lock (this) // 동기화 블록 추가
                 {
                     foreach (User i in users)
@@ -293,7 +292,7 @@ namespace PacketServer
                     {
                         foreach(User i in users)
                         {
-                            if (i.userName.Equals(userName))
+                            if (i.userName.Equals(userName) && i.userOn != false)
                             {
                                 i.networkstream.Write(buffer, 0, buffer.Length);
                                 i.networkstream.Flush();
@@ -336,9 +335,12 @@ namespace PacketServer
 
             foreach (User i in this.users)
             {
-                i.tcpclient.Close();
-                i.networkstream.Close();
-                i.thread.Abort();
+                if (i.tcpclient != null)
+                    i.tcpclient.Close();
+                if (i.networkstream != null)
+                    i.networkstream.Close();
+                if (i.thread != null)
+                    i.thread.Abort();
             }
             users.Clear();
             this.server.Abort();
