@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.clientState = new System.Windows.Forms.Label();
             this.btnSend = new System.Windows.Forms.Button();
@@ -37,6 +38,7 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -80,6 +82,7 @@
             // 
             this.richUserText.Location = new System.Drawing.Point(15, 69);
             this.richUserText.Name = "richUserText";
+            this.richUserText.ReadOnly = true;
             this.richUserText.Size = new System.Drawing.Size(581, 342);
             this.richUserText.TabIndex = 5;
             this.richUserText.Text = "";
@@ -121,6 +124,10 @@
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -155,6 +162,7 @@
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

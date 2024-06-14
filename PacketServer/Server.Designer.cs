@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.UsrList = new System.Windows.Forms.ListBox();
             this.richUsrText = new System.Windows.Forms.RichTextBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
@@ -36,21 +35,14 @@
             this.ServerState = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ConnClientNum = new System.Windows.Forms.Label();
+            this.UsrList = new System.Windows.Forms.ListView();
             this.SuspendLayout();
-            // 
-            // UsrList
-            // 
-            this.UsrList.FormattingEnabled = true;
-            this.UsrList.ItemHeight = 12;
-            this.UsrList.Location = new System.Drawing.Point(602, 64);
-            this.UsrList.Name = "UsrList";
-            this.UsrList.Size = new System.Drawing.Size(186, 340);
-            this.UsrList.TabIndex = 0;
             // 
             // richUsrText
             // 
             this.richUsrText.Location = new System.Drawing.Point(12, 64);
             this.richUsrText.Name = "richUsrText";
+            this.richUsrText.ReadOnly = true;
             this.richUsrText.Size = new System.Drawing.Size(565, 340);
             this.richUsrText.TabIndex = 1;
             this.richUsrText.Text = "";
@@ -110,11 +102,21 @@
             this.ConnClientNum.TabIndex = 8;
             this.ConnClientNum.Text = "0";
             // 
+            // UsrList
+            // 
+            this.UsrList.HideSelection = false;
+            this.UsrList.Location = new System.Drawing.Point(597, 64);
+            this.UsrList.Name = "UsrList";
+            this.UsrList.Size = new System.Drawing.Size(191, 340);
+            this.UsrList.TabIndex = 9;
+            this.UsrList.UseCompatibleStateImageBehavior = false;
+            // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.UsrList);
             this.Controls.Add(this.ConnClientNum);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ServerState);
@@ -122,7 +124,6 @@
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.richUsrText);
-            this.Controls.Add(this.UsrList);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Server_FormClosed);
@@ -133,8 +134,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox UsrList;
         private System.Windows.Forms.RichTextBox richUsrText;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.Button btnSend;
@@ -142,6 +141,7 @@
         private System.Windows.Forms.Label ServerState;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label ConnClientNum;
+        private System.Windows.Forms.ListView UsrList;
     }
 }
 

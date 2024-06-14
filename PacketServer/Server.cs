@@ -74,65 +74,66 @@ namespace PacketServer
             this.listener.Start();
             this.ServerOn = true;
 
-                while (this.ServerOn) // 서버가 종료되기 전까지는 계속 돈다.
+            while (this.ServerOn) // 서버가 종료되기 전까지는 계속 돈다.
+            {
+                try
                 {
-                    try
-                    {
-                        TcpClient client = this.listener.AcceptTcpClient();
+                    TcpClient client = this.listener.AcceptTcpClient();
 
-                        if (client.Connected)
+                    if (client.Connected)
+                    {
+                        NetworkStream stream = client.GetStream();
+                        StreamWriter writer = new StreamWriter(stream);
+                        StreamReader reader = new StreamReader(stream);
+
+                        string connected_user_name = reader.ReadLine(); // client는 연결 직후에 자신의 user name을 보내준다.
+
+                        foreach (User i in this.users)
                         {
-                            NetworkStream stream = client.GetStream();
-                            StreamWriter writer = new StreamWriter(stream);
-                            StreamReader reader = new StreamReader(stream);
-
-                            string connected_user_name = reader.ReadLine(); // client는 연결 직후에 자신의 user name을 보내준다.
-
-                            foreach (User i in this.users)
-                            {
-                                if (i.userName.Equals(connected_user_name)) // user list들 모두 돌면서, 일치하는 이름이 있으면 다시 설정하게 한다.
-                                {   // streamWriter로 메시지를 보내준다. 그래서 클라이언트는 처음에 streamReader로 수신해야함.
-                                    writer.WriteLine("해당 user name은 이미 존재합니다. 이름을 바꿔주십시오.. 연결을 종료합니다...");
-                                    writer.Flush();
-                                    stream = null;
-                                }
+                            if (i.userName.Equals(connected_user_name)) // user list들 모두 돌면서, 일치하는 이름이 있으면 다시 설정하게 한다.
+                            {   // streamWriter로 메시지를 보내준다. 그래서 클라이언트는 처음에 streamReader로 수신해야함.
+                                writer.WriteLine("해당 user name은 이미 존재합니다. 이름을 바꿔주십시오.. 연결을 종료합니다...");
+                                writer.Flush();
+                                stream = null;
                             }
-                            if (stream == null)
-                            {
-                                stream.Close();
-                                continue;
-                            }
-                            
-                            writer.WriteLine("user name 승인됨"); // 이 메시지는 client 측에는 보이지 않아야한다.
-                            writer.Flush();
-
-                            SetUserList(connected_user_name);
-
-                            User newUser = new User();
-                            newUser.networkstream = stream;
-                            newUser.tcpclient = client;
-                            newUser.userName = connected_user_name;
-                            Thread client_thread = new Thread(() => ClientHandler(newUser)); // 인자를 넣어주기 위해서 람다 표현식을 써줬다. 클라이언트에게 채팅을 받는 스레드를 개별로 만들어준다.
-                            newUser.thread = client_thread;
-                            this.users.Add(newUser); // 전부 설정해주고 list에 넣어준다.
-
-                            client_thread.IsBackground = true; // 메인 스레드 종료시 같이 종료하게 한다.
-                            client_thread.Start();
-
-                            this.Invoke(new MethodInvoker(delegate ()
-                            {
-                                this.ConnClientNum.Text = (int.Parse(this.ConnClientNum.Text) + 1).ToString(); // 접속한 클라이언트 수를 하나 늘려준다.
-                            }));
-
-                            DisplayText("System : [" + connected_user_name + "] 접속");
-                            SendMessageAll(connected_user_name + "님이 입장하셨습니다.", "", true); // 접속한 모든 클라이언트에게 메시지를 보내준다.
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        break;
+                        if (stream == null)
+                        {
+                            stream.Close();
+                            continue;
+                        }
+                            
+                        writer.WriteLine("user name 승인됨"); // 이 메시지는 client 측에는 보이지 않아야한다.
+                        writer.Flush();
+
+                        User newUser = new User();
+                        newUser.networkstream = stream;
+                        newUser.tcpclient = client;
+                        newUser.userName = connected_user_name;
+                        newUser.totalAsset = 1000; // 기본 자산 설정
+                        Thread client_thread = new Thread(() => ClientHandler(newUser)); // 인자를 넣어주기 위해서 람다 표현식을 써줬다. 클라이언트에게 채팅을 받는 스레드를 개별로 만들어준다.
+                        newUser.thread = client_thread;
+                        this.users.Add(newUser); // 전부 설정해주고 list에 넣어준다.
+                            
+                        SetUserList(newUser);
+                        client_thread.IsBackground = true; // 메인 스레드 종료시 같이 종료하게 한다.
+                        client_thread.Start();
+
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            this.ConnClientNum.Text = (int.Parse(this.ConnClientNum.Text) + 1).ToString(); // 접속한 클라이언트 수를 하나 늘려준다.
+                        }));
+
+                        DisplayText("System : [" + connected_user_name + "] 접속");
+                        SendMessageAll(connected_user_name + "님이 입장하셨습니다.", "", true); // 접속한 모든 클라이언트에게 메시지를 보내준다.
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                    break;
+                }
+            }
         }
 
         private void ClientHandler(User user)
@@ -174,6 +175,7 @@ namespace PacketServer
                     }
                     catch (Exception e) // 오류 발생 시 예외 처리
                     {
+                        MessageBox.Show(e.ToString());
                         break;
                     }
 
@@ -207,10 +209,16 @@ namespace PacketServer
                         case (int)PacketType.사용자정보:
                             {
                                 UserInfo packet_userInfo = (UserInfo)packet;
-                                this.Invoke(new MethodInvoker(delegate ()
+                                foreach (User a in users)
                                 {
-                                    // user 정보를 받아서 할 일
-                                }));
+                                    if (a.userName == userName)
+                                    {
+                                        a.totalAsset = packet_userInfo.TotalAsset;
+                                        a.raiseRate = packet_userInfo.raiseRate;
+                                    }
+                                }
+                                UpdateUserList();
+
                                 break;
                             }
                         case (int)PacketType.로그인:
@@ -242,16 +250,23 @@ namespace PacketServer
         }
 
 
-        public void SetUserList(string userName)
+        public void SetUserList(User newUser) // 연결된 이후에 바로 호출됨.
         {
-            User newUser = new User();
-            newUser.SetUser(userName, 1000, 0); // 추가할 유저 생성, 생성시에 기본 자금이 있다면 설정해주면 좋을듯. 지금은 1000으로 설정
-            // 여기서 sort도 같이 해주면 좋을듯?
-            
-            users.Add(newUser); // List<User>에 추가
             this.Invoke(new MethodInvoker(delegate ()
             {
-                UsrList.Items.Add(newUser.userName.ToString() + ", 총 자산 : " + newUser.totalAsset.ToString());
+                UsrList.Items.Add(new ListViewItem(new string[] { newUser.userName, newUser.totalAsset.ToString(), newUser.raiseRate.ToString() }));
+            }));
+        }
+
+        public void UpdateUserList() // listView를 업데이트
+        {
+            this.Invoke((MethodInvoker)(delegate ()
+            {
+                UsrList.Items.Clear();
+                foreach (User i in users)
+                {
+                    UsrList.Items.Add(new ListViewItem(new string[] { i.userName, i.totalAsset.ToString(), i.raiseRate.ToString() }));
+                }
             }));
         }
 
@@ -327,6 +342,10 @@ namespace PacketServer
         {
             this.server = new Thread(new ThreadStart(Server_Run));
             this.server.Start();
+            this.UsrList.View = View.Details;
+            this.UsrList.Columns.Add("name", "이름");
+            this.UsrList.Columns.Add("TotalAsset", "총자산");
+            this.UsrList.Columns.Add("RaiseRate", "수익률");
         }
 
         private void Server_FormClosed(object sender, FormClosedEventArgs e)
