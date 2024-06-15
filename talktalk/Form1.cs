@@ -22,6 +22,8 @@ namespace talktalk
         private int currentIndex = 0;
         private int countdown = 30;
         private decimal totalMoney = 1000000m;
+        private string dataDirectory;
+
 
         public Form1()
         {
@@ -29,6 +31,7 @@ namespace talktalk
             InitializeChart();
             InitializeTimer();
             InitializeCountdownLabel();
+            SetDataDirectory();
         }
 
         public Form1(string userID)
@@ -39,6 +42,7 @@ namespace talktalk
             InitializeCountdownLabel();
             label2.Text = userID;
             UpdateTotalMoneyLabel();
+            SetDataDirectory();
         }
 
         private void InitializeChart()
@@ -65,6 +69,15 @@ namespace talktalk
             countdownLabel.Text = "Next update in: 30 seconds";
             countdownLabel.AutoSize = true;
             this.Controls.Add(countdownLabel);
+        }
+
+        private void SetDataDirectory()
+        {
+            DirectoryInfo currentDir = new DirectoryInfo(Application.StartupPath);
+
+            DirectoryInfo dataDir = currentDir.Parent.Parent.Parent;
+
+            dataDirectory = Path.Combine(dataDir.FullName, "data");
         }
 
         private void UpdateTotalMoneyLabel()
@@ -110,7 +123,7 @@ namespace talktalk
             ListViewItem newitem = new ListViewItem(samsung);
             listView1.Items.Add(newitem);
 
-            string filePath = Path.Combine(Application.StartupPath, "samsung.csv");
+            string filePath = Path.Combine(dataDirectory, "samsung.csv");
             LoadListViewFromCsv(filePath);
         }
 
@@ -240,12 +253,12 @@ namespace talktalk
         private void guna2Button10_Click(object sender, EventArgs e)
         {
             int quantityToBuy = int.Parse(guna2TextBox2.Text);
-            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
+            string filePath = Path.Combine(dataDirectory, "admin.csv");
             if (!File.Exists(filePath))
             {
                 using (StreamWriter sw = File.CreateText(filePath))
                 {
-                    sw.WriteLine("ItemName,Quantity");
+                    sw.WriteLine("ItemName,Quantity, TotalCost");
                 }
             }
 
@@ -292,7 +305,7 @@ namespace talktalk
         private void guna2Button11_Click(object sender, EventArgs e)
         {
             int quantityToSell = int.Parse(guna2TextBox2.Text);
-            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
+            string filePath = Path.Combine(dataDirectory, "admin.csv");
             if (File.Exists(filePath))
             {
                 
@@ -312,7 +325,7 @@ namespace talktalk
         }
         private int GetCurrentQuantity(string itemName)
         {
-            string filePath = "admin.csv";
+            string filePath = Path.Combine(dataDirectory, "admin.csv");
             if (File.Exists(filePath))
             {
                 var lines = File.ReadAllLines(filePath);
