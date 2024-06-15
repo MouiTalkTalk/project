@@ -414,7 +414,7 @@ namespace talktalk
                 if (accountForm != null)
                 {
                     accountForm.Close();
-                    accountForm.Dispose(); // Ensure the form resources are released
+                    accountForm.Dispose();
                     accountForm = new Account();
                     accountForm.Show();
                 }
