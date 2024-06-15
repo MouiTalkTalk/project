@@ -92,7 +92,7 @@ namespace talktalk
 
         private void LoadAdminCsv()
         {
-            string filePath = "C:\\Users\\DONGHO\\Desktop\\#TT\\TEAM\\talktalk\\bin\\Debug\\admin.csv";
+            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
             if (File.Exists(filePath))
             {
                 using (StreamReader reader = new StreamReader(filePath))

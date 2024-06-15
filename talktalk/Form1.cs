@@ -106,11 +106,11 @@ namespace talktalk
         {
             guna2ShadowForm1.SetShadowForm(this);
 
-            String[] samsung = { "01", "SAMSUNG", "78,300", "up", "0.03%" };
+            String[] samsung = { "01", "SAMSUNG", "78300", "up", "0.03%" };
             ListViewItem newitem = new ListViewItem(samsung);
             listView1.Items.Add(newitem);
 
-            string filePath = @"C:\Users\DONGHO\Desktop\#TT\TEAM\samsung.csv";
+            string filePath = Path.Combine(Application.StartupPath, "samsung.csv");
             LoadListViewFromCsv(filePath);
         }
 
@@ -240,7 +240,7 @@ namespace talktalk
         private void guna2Button10_Click(object sender, EventArgs e)
         {
             int quantityToBuy = int.Parse(guna2TextBox2.Text);
-            string filePath = "admin.csv";
+            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
             if (!File.Exists(filePath))
             {
                 using (StreamWriter sw = File.CreateText(filePath))
@@ -292,7 +292,7 @@ namespace talktalk
         private void guna2Button11_Click(object sender, EventArgs e)
         {
             int quantityToSell = int.Parse(guna2TextBox2.Text);
-            string filePath = "admin.csv";
+            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
             if (File.Exists(filePath))
             {
                 
