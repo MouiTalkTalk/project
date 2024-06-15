@@ -14,6 +14,7 @@ namespace Game1
     public partial class Form1 : Form
     {
         int present = 0;
+        public bool IsSuccess { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -24,10 +25,14 @@ namespace Game1
             if (present == 2)
             {
                 MessageBox.Show("당첨!! 100만원 지급!!");
+                IsSuccess = true;
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("실패.. 다음 기회에..");
+                IsSuccess = false;
+                this.DialogResult = DialogResult.Cancel;
             }
 
             this.Close();
@@ -38,10 +43,14 @@ namespace Game1
             if (present == 3)
             {
                 MessageBox.Show("당첨!! 100만원 지급!!");
+                IsSuccess = true;
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("실패.. 다음 기회에..");
+                IsSuccess = false;
+                this.DialogResult = DialogResult.Cancel;
             }
 
             this.Close();
@@ -52,10 +61,14 @@ namespace Game1
             if (present == 1)
             {
                 MessageBox.Show("당첨!! 100만원 지급!!");
+                IsSuccess = true;
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("실패.. 다음 기회에..");
+                IsSuccess = false;
+                this.DialogResult = DialogResult.Cancel;
             }
 
             this.Close();
@@ -66,10 +79,14 @@ namespace Game1
             if (present == 4)
             {
                 MessageBox.Show("당첨!! 100만원 지급!!");
+                IsSuccess = true;
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("실패.. 다음 기회에..");
+                IsSuccess = false;
+                this.DialogResult = DialogResult.Cancel;
             }
 
             this.Close();
@@ -80,10 +97,14 @@ namespace Game1
             if (present == 5)
             {
                 MessageBox.Show("당첨!! 100만원 지급!!");
+                IsSuccess = true;
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("실패.. 다음 기회에..");
+                IsSuccess = false;
+                this.DialogResult = DialogResult.Cancel;
             }
 
             this.Close();

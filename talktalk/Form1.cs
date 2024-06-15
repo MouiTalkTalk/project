@@ -12,6 +12,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ClassLibrary;
 using PacketClient;
 using PacketServer;
+using Game1;
+using game2;
+
 
 namespace talktalk
 {
@@ -437,6 +440,36 @@ namespace talktalk
                 {
                     //clientForm.SendFile(filePath);
                 }
+            }
+        }
+
+        private void guna2Button6_Click(object sender, EventArgs e)
+        {
+            Game1.Form1 game1 = new Game1.Form1();
+            DialogResult dResult = game1.ShowDialog();
+
+            if (dResult == DialogResult.OK && game1.IsSuccess)
+            {
+                MessageBox.Show("News operation was successful.");
+            }
+            else
+            {
+                MessageBox.Show("News operation failed.");
+            }
+        }
+
+        private void guna2Button7_Click(object sender, EventArgs e)
+        {
+            game2.Form2 game2 = new game2.Form2();
+            DialogResult dResult = game2.ShowDialog();
+
+            if (dResult == DialogResult.OK && game2.IsSuccess)
+            {
+                MessageBox.Show("News operation was successful.");
+            }
+            else
+            {
+                MessageBox.Show("News operation failed.");
             }
         }
     }

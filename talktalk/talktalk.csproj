@@ -128,6 +128,14 @@
       <Project>{16204d09-4edf-44ed-ac0b-6b795a10700c}</Project>
       <Name>ClassLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Game1\Game1.csproj">
+      <Project>{48249205-b1a3-44a7-9989-3f914e5f849b}</Project>
+      <Name>Game1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\game2\game2.csproj">
+      <Project>{9ad38f6a-b21a-4ae7-8581-b9be5f2ff97d}</Project>
+      <Name>game2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PacketClient\PacketClient.csproj">
       <Project>{e27dd995-b35d-4530-903b-6b253e5625c6}</Project>
       <Name>PacketClient</Name>

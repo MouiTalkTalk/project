@@ -12,6 +12,8 @@ namespace game2
 {
     public partial class Form2 : Form
     {
+        public bool IsSuccess { get; set; }
+
         Random random = new Random();
         int[] horse = new int[5];
         int selected = -1;
@@ -54,9 +56,13 @@ namespace game2
                     if (i == selected)
                     {
                         MessageBox.Show("당신의 말이 우승하였습니다. 2000만원 지급!!");
+                        IsSuccess = true;
+                        this.DialogResult = DialogResult.OK;
                     }
                     else {
                         MessageBox.Show("경마에 재능이 없으시군요.. 500만원을 잃었습니다..");
+                        IsSuccess = false;
+                        this.DialogResult = DialogResult.Cancel;
                     }
                     Close();
                 }
