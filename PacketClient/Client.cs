@@ -39,6 +39,7 @@ namespace PacketClient
         {
             btnConnect.Enabled = false;
             txtUserName.Text = username;
+            timer1.Interval = 1000;
         }
 
         private void GetMessage() // 서버로부터 메시지 받는 함수, 스레드로 실행된다.
@@ -98,6 +99,7 @@ namespace PacketClient
 
             send.Type = (int)PacketType.메시지;
             send.payload = txtMessage.Text;
+            send.UserName = username;
 
             buffer = Packet.Serialize(send);
             stream.Write(buffer, 0, buffer.Length);
@@ -130,6 +132,7 @@ namespace PacketClient
                     clientState.Text = "서버와 연결됨";
                     chat.IsBackground = true;
                     chat.Start();
+                    timer1.Start();
                 }
                 catch
                 {
@@ -173,5 +176,20 @@ namespace PacketClient
             client = null;
         }
 
+        int day_temp = 0;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            UserInfo send = new UserInfo();
+            byte[] buffer = new byte[PACKETSIZE];
+
+            send.Type = (int)PacketType.사용자정보;
+            send.TotalAsset = 1000 + day_temp * 100;
+            send.raiseRate = (double)day_temp;
+
+            buffer = Packet.Serialize(send);
+            stream.Write(buffer, 0, buffer.Length);
+            stream.Flush();
+            day_temp++;
+        }
     }
 }

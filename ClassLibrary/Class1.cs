@@ -67,11 +67,9 @@ namespace ClassLibrary
     {
         public int TotalAsset; // 자산
         public double raiseRate; // 수익률
-        public string UserName;
         public UserInfo()
         {
             this.TotalAsset = 0;
-            this.UserName = string.Empty;
             this.raiseRate = 0;
         }
     }
