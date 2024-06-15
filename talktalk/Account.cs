@@ -19,6 +19,7 @@ namespace talktalk
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
+
         private void Account_Load(object sender, EventArgs e)
         {
             dataGridView1.RowHeadersVisible = false;
