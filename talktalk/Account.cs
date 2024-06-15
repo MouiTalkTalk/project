@@ -17,6 +17,7 @@ namespace talktalk
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void Account_Load(object sender, EventArgs e)
@@ -28,8 +29,6 @@ namespace talktalk
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             }
-
-            LoadAdminCsv();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -89,79 +88,9 @@ namespace talktalk
             }
         }
 
-        private void LoadAdminCsv()
+        private void guna2Button1_Click(object sender, EventArgs e)
         {
-            string filePath = "C:\\Users\\DONGHO\\Desktop\\#TT\\TEAM\\talktalk\\bin\\Debug\\admin.csv";
-            if (File.Exists(filePath))
-            {
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    string line;
-                    reader.ReadLine();
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] values = line.Split(',');
-                        string name = values[0];
-                        int quantity = int.Parse(values[1]);
-                        decimal totalCost = decimal.Parse(values[2]);
-                        decimal buyPrice = totalCost / quantity;
-                        decimal currentPrice = GetCurrentPriceFromListView(name);
-
-                        int profitLoss = (int)((currentPrice - buyPrice) * quantity);
-                        double profitLossRatio = (double)profitLoss / (double)(buyPrice * quantity) * 100;
-                        string ratioString = profitLossRatio.ToString("0.00") + "%";
-
-                        dataGridView1.Rows.Add(
-                            name,
-                            quantity,
-                            profitLoss,
-                            ratioString,
-                            currentPrice * quantity,
-                            buyPrice,
-                            currentPrice
-                        );
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("admin.csv file not found.");
-            }
-        }
-        private decimal GetCurrentPriceFromListView(string itemName)
-        {
-            Form1 form1 = Application.OpenForms.OfType<Form1>().FirstOrDefault();
-            if (form1 != null)
-            {
-                foreach (ListViewItem item in form1.listView1.Items)
-                {
-                    if (item.SubItems[1].Text == itemName)
-                    {
-                        return decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
-                    }
-                }
-            }
-            return 0;
-        }
-
-        public void UpdateCurrentPrices()
-        {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                string itemName = row.Cells["name"].Value.ToString();
-                decimal currentPrice = GetCurrentPriceFromListView(itemName);
-                int quantity = int.Parse(row.Cells["quantity"].Value.ToString());
-                decimal buyPrice = decimal.Parse(row.Cells["buyPrice"].Value.ToString());
-
-                int profitLoss = (int)((currentPrice - buyPrice) * quantity);
-                double profitLossRatio = (double)profitLoss / (double)(buyPrice * quantity) * 100;
-                string ratioString = profitLossRatio.ToString("0.00") + "%";
-
-                row.Cells["currentPrice"].Value = currentPrice;
-                row.Cells["profitLoss"].Value = profitLoss;
-                row.Cells["profitLossRatio"].Value = ratioString;
-                row.Cells["currentAsset"].Value = currentPrice * quantity;
-            }
+            this.Close();
         }
     }
 }
