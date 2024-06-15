@@ -21,7 +21,7 @@ namespace talktalk
         {
             if (txtUsername.Text == "admin")
             {
-                new Form1(txtUsername.Text).Show();
+                new Form1().Show();
                 this.Hide();
             }
             else
