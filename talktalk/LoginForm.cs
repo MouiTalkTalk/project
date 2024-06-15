@@ -21,6 +21,14 @@ namespace talktalk
         {
             if (txtUsername.Text == "admin")
             {
+                PacketServer.Server serverForm = new PacketServer.Server();
+                serverForm.Show();
+                this.Hide();
+            }
+            else if (txtUsername.Text.Equals("user1"))
+            {
+                PacketClient.Client clientForm = new PacketClient.Client(txtUsername.Text);
+                clientForm.Show();
                 new Form1(txtUsername.Text).Show();
                 this.Hide();
             }

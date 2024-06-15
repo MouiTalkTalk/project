@@ -128,9 +128,8 @@ namespace PacketServer
                         SendMessageAll(connected_user_name + "님이 입장하셨습니다.", "", true); // 접속한 모든 클라이언트에게 메시지를 보내준다.
                     }
                 }
-                catch (Exception e)
+                catch
                 {
-                    MessageBox.Show(e.ToString());
                     break;
                 }
             }
@@ -363,6 +362,7 @@ namespace PacketServer
             }
             users.Clear();
             this.server.Abort();
+            Application.Exit();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
