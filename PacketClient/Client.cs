@@ -172,5 +172,6 @@ namespace PacketClient
             client.Close();
             client = null;
         }
+
     }
 }
