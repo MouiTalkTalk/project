@@ -20,6 +20,7 @@ namespace talktalk
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
+
         private void Account_Load(object sender, EventArgs e)
         {
             dataGridView1.RowHeadersVisible = false;
