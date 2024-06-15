@@ -36,13 +36,5 @@ namespace talktalk
         {
             Application.Exit();
         }
-
-        private void txtUsername_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                 guna2Button1_Click(this, e);
-            }
-        }
     }
 }
