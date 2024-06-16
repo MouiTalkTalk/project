@@ -513,6 +513,35 @@ namespace talktalk
                 }
                 currentIndex++;
 
+
+                if (listView1.SelectedItems.Count == 1)
+                {
+                    ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                    ListViewItem lvItem = items[0];
+                    string name = lvItem.SubItems[1].Text;
+                    string price = lvItem.SubItems[2].Text;
+                    string ud = lvItem.SubItems[3].Text;
+                    string updown = lvItem.SubItems[4].Text;
+                    stockName.Text = name;
+                    stockPrice.Text = price;
+                    stockUpdown.Text = updown;
+                    if (ud == "up")
+                    {
+                        stockPrice.ForeColor = Color.Red;
+                        stockUpdown.ForeColor = Color.Red;
+                    }
+                    else if (ud == "down")
+                    {
+                        stockPrice.ForeColor = Color.Blue;
+                        stockUpdown.ForeColor = Color.Blue;
+                    }
+                    else
+                    {
+                        stockPrice.ForeColor = Color.Black;
+                        stockUpdown.ForeColor = Color.Black;
+                    }
+                }
+
                 Account accountForm = Application.OpenForms.OfType<Account>().FirstOrDefault();
                 if (accountForm != null)
                 {
