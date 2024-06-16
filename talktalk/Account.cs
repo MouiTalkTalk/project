@@ -114,6 +114,9 @@ namespace talktalk
             string username = label5.Text;
             string filename = username + ".csv";
             string filePath = Path.Combine(dataDirectory, filename);
+            int asset = 0;
+            int profit = 0;
+            int totalAsset = 0;
             if (File.Exists(filePath))
             {
                 using (StreamReader reader = new StreamReader(filePath))
@@ -142,8 +145,17 @@ namespace talktalk
                             buyPrice,
                             currentPrice
                         );
+
+                        asset += (int)(currentPrice * quantity);
+                        profit += profitLoss;
+                        totalAsset += (int)(buyPrice * quantity);
                     }
                 }
+                double profitRatio = (double)profit / totalAsset * 100;
+
+                lblAsset.Text = asset.ToString();
+                lblProfit.Text = profit.ToString();
+                lblProfitRatio.Text = profitRatio.ToString("0.00") + "%";
             }
             else
             {
