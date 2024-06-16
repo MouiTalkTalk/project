@@ -73,6 +73,7 @@ namespace PacketServer
             this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 15000);
             this.listener.Start();
             this.ServerOn = true;
+            this.ServerState.Text = "Run";
 
             while (this.ServerOn) // 서버가 종료되기 전까지는 계속 돈다.
             {
