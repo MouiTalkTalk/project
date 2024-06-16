@@ -13,12 +13,31 @@ namespace talktalk
 {
     public partial class Account : Form
     {
+        private string dataDirectory;
+
         public Account()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            SetDataDirectory();
         }
 
+        public Account(string username)
+        {
+            InitializeComponent();
+            label5.Text = username;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            SetDataDirectory();
+        }
+
+        private void SetDataDirectory()
+        {
+            DirectoryInfo currentDir = new DirectoryInfo(Application.StartupPath);
+
+            DirectoryInfo dataDir = currentDir.Parent.Parent.Parent;
+
+            dataDirectory = Path.Combine(dataDir.FullName, "data");
+        }
 
         private void Account_Load(object sender, EventArgs e)
         {
@@ -92,7 +111,9 @@ namespace talktalk
 
         private void LoadAdminCsv()
         {
-            string filePath = Path.Combine(Application.StartupPath, "admin.csv");
+            string username = label5.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
             if (File.Exists(filePath))
             {
                 using (StreamReader reader = new StreamReader(filePath))
@@ -126,7 +147,7 @@ namespace talktalk
             }
             else
             {
-                MessageBox.Show("admin.csv file not found.");
+                MessageBox.Show(filename + " not found");
             }
         }
         private decimal GetCurrentPriceFromListView(string itemName)

@@ -28,6 +28,7 @@ namespace talktalk
         private string dataDirectory;
         private string[] lastTenData;
         private int currentPlotIndex;
+        private int dayCount = 1;
 
         public Form1()
         {
@@ -36,6 +37,7 @@ namespace talktalk
             InitializeTimer();
             InitializeCountdownLabel();
             SetDataDirectory();
+            InitializeDayCountLabel();
         }
 
         public Form1(string userID)
@@ -45,8 +47,10 @@ namespace talktalk
             InitializeTimer();
             InitializeCountdownLabel();
             label2.Text = userID;
+            label3.Text = userID;
             UpdateTotalMoneyLabel();
             SetDataDirectory();
+            InitializeDayCountLabel();
         }
 
         private void InitializeChart()
@@ -73,6 +77,15 @@ namespace talktalk
             countdownLabel.Text = "Next update in: 30 seconds";
             countdownLabel.AutoSize = true;
             this.Controls.Add(countdownLabel);
+        }
+
+        private void InitializeDayCountLabel()
+        {
+            Label label15 = new Label();
+            label15.Name = "label15";
+            label15.Text = "DAY 1";
+            label15.AutoSize = true;
+            this.Controls.Add(label15);
         }
 
         private void SetDataDirectory()
@@ -277,7 +290,7 @@ namespace talktalk
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            Account account = new Account();
+            Account account = new Account(label2.Text);
             DialogResult dResult = account.ShowDialog();
         }
 
@@ -300,7 +313,9 @@ namespace talktalk
         private void guna2Button10_Click(object sender, EventArgs e)
         {
             int quantityToBuy = int.Parse(guna2TextBox2.Text);
-            string filePath = Path.Combine(dataDirectory, "admin.csv");
+            string username = label2.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
             if (!File.Exists(filePath))
             {
                 using (StreamWriter sw = File.CreateText(filePath))
@@ -352,7 +367,9 @@ namespace talktalk
         private void guna2Button11_Click(object sender, EventArgs e)
         {
             int quantityToSell = int.Parse(guna2TextBox2.Text);
-            string filePath = Path.Combine(dataDirectory, "admin.csv");
+            string username = label2.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
             if (File.Exists(filePath))
             {
                 
@@ -372,7 +389,9 @@ namespace talktalk
         }
         private int GetCurrentQuantity(string itemName)
         {
-            string filePath = Path.Combine(dataDirectory, "admin.csv");
+            string username = label2.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
             if (File.Exists(filePath))
             {
                 var lines = File.ReadAllLines(filePath);
@@ -484,7 +503,7 @@ namespace talktalk
             if (countdown == 0)
             {
                 countdown = 5;
-                
+
                 /*
                 if (csvData != null && csvData.Count > 0)
                 {
@@ -493,6 +512,8 @@ namespace talktalk
                     UpdateListViewPrice(oldData, csvData[currentIndex][1]);
                 }
                 */
+                dayCount++;
+                label15.Text = "DAY " + dayCount;
 
                 foreach (ListViewItem item in listView1.Items)
                 {
@@ -547,7 +568,7 @@ namespace talktalk
                 {
                     accountForm.Close();
                     accountForm.Dispose();
-                    accountForm = new Account();
+                    accountForm = new Account(label2.Text);
                     accountForm.Show();
                 }
 
