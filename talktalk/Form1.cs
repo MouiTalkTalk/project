@@ -22,11 +22,12 @@ namespace talktalk
     {
         private Timer timer;
         private List<string[]> csvData;
-        private int currentIndex = 0;
-        private int countdown = 30;
+        private int currentIndex = 51;
+        private int countdown = 5;
         private decimal totalMoney = 1000000m;
         private string dataDirectory;
-
+        private string[] lastTenData;
+        private int currentPlotIndex;
 
         public Form1()
         {
@@ -88,12 +89,34 @@ namespace talktalk
             label1.Text = $"{totalMoney:C}";
         }
 
-        private void UpdateListViewPrice(string newPrice)
+
+        private void UpdateListViewPrice(ListViewItem item, string oldData, string newPrice)
         {
             if (listView1.Items.Count > 0)
             {
-                ListViewItem item = listView1.Items[0];
+                //ListViewItem item = listView1.Items[0];
                 item.SubItems[2].Text = newPrice;
+
+                if (decimal.TryParse(oldData, out decimal oldPrice) && decimal.TryParse(newPrice, out decimal newPriceDecimal))
+                {
+                    decimal changeRate = (newPriceDecimal - oldPrice) / oldPrice * 100;
+                    item.SubItems[4].Text = $"{changeRate:F2}%";
+
+                    if (newPriceDecimal > oldPrice)
+                    {
+                        item.SubItems[3].Text = "up";
+                    }
+                    else if (newPriceDecimal < oldPrice)
+                    {
+                        item.SubItems[3].Text = "down";
+                    }
+                    else
+                    {
+                        item.SubItems[3].Text = "same";
+                    }
+                }
+
+
                 string ud = item.SubItems[3].Text;
                 if (ud == "up")
                 {
@@ -122,9 +145,27 @@ namespace talktalk
         {
             guna2ShadowForm1.SetShadowForm(this);
 
-            String[] samsung = { "01", "SAMSUNG", "78300", "up", "0.03%" };
-            ListViewItem newitem = new ListViewItem(samsung);
-            listView1.Items.Add(newitem);
+            String[] samsung = { "01", "SAMSUNG", "78900", "up", "1.94%" };
+            ListViewItem newitem1 = new ListViewItem(samsung);
+            listView1.Items.Add(newitem1);
+
+            String[] naver = { "02", "NAVER", "184000", "down", "-1.76%" };
+            listView1.Items.Add(new ListViewItem(naver));
+
+            String[] hyundai = { "03", "Hyundai", "250500", "up", "2.66%" };
+            listView1.Items.Add(new ListViewItem(hyundai));
+
+            String[] celltrion = { "04", "Celltrion", "191500", "down", "-2.35%" };
+            listView1.Items.Add(new ListViewItem(celltrion));
+
+            String[] kb = { "05", "KBBank", "81600", "up", "1.87%" };
+            listView1.Items.Add(new ListViewItem(kb));
+
+            String[] krafton = { "06", "Krafton", "242500", "down", "-2.13%" };
+            listView1.Items.Add(new ListViewItem(krafton));
+
+            String[] lgenergysolution = { "07", "LGEnergySolution", "372000", "down", "-1.20%" };
+            listView1.Items.Add(new ListViewItem(lgenergysolution));
 
             string filePath = Path.Combine(dataDirectory, "samsung.csv");
             LoadListViewFromCsv(filePath);
@@ -194,7 +235,7 @@ namespace talktalk
             double averageInterval = (maxClose - minClose) / 5;
             chart1.ChartAreas[0].AxisY.Interval = averageInterval;
 
-            for (int i = 1; i < csvLines.Length; i++)
+            for (int i = 1; i < csvLines.Length - 10; i++)
             {
                 string[] data = csvLines[i].Split(',');
                 string date = data[0];
@@ -202,6 +243,9 @@ namespace talktalk
 
                 series.Points.AddXY(date, close);
             }
+
+            lastTenData = csvLines.Skip(csvLines.Length - 10).ToArray();
+            currentPlotIndex = 0;
 
             chart1.Series.Add(series);
         }
@@ -398,6 +442,14 @@ namespace talktalk
             }
         }
 
+        private string GetCsvFilePath(string itemName)
+        {
+            string fileName = $"{itemName.ToLower()}.csv";
+            return Path.Combine(dataDirectory, fileName);
+        }
+
+
+
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)
@@ -405,6 +457,17 @@ namespace talktalk
                 ListViewItem item = listView1.SelectedItems[0];
                 currentItemName = item.SubItems[1].Text;
                 guna2TextBox2.Text = GetCurrentQuantity(currentItemName).ToString();
+
+                string filePath = GetCsvFilePath(currentItemName);
+                if (File.Exists(filePath))
+                {
+                    string[] lines = File.ReadAllLines(filePath);
+                    PlotData(lines);
+                }
+                else
+                {
+                    MessageBox.Show($"CSV file for {currentItemName} not found.");
+                }
             }
         }
 
@@ -420,12 +483,36 @@ namespace talktalk
 
             if (countdown == 0)
             {
-                countdown = 30;
+                countdown = 5;
+                
+                /*
                 if (csvData != null && csvData.Count > 0)
                 {
+                    string oldData = csvData[currentIndex][1];
                     currentIndex = (currentIndex + 1) % csvData.Count;
-                    UpdateListViewPrice(csvData[currentIndex][1]);
+                    UpdateListViewPrice(oldData, csvData[currentIndex][1]);
                 }
+                */
+
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    string filePath2 = GetCsvFilePath(item.SubItems[1].Text);
+
+                    if (File.Exists(filePath2))
+                    {
+                        string[] lines = File.ReadAllLines(filePath2);
+                        csvData = lines.Skip(1).Select(line => line.Split(',')).ToList();
+                        if (csvData != null && csvData.Count > 0)
+                        {
+                            string oldData = csvData[currentIndex][1];
+                            // currentIndex = (currentIndex + 1) % csvData.Count;
+                            UpdateListViewPrice(item, oldData, csvData[(currentIndex + 1) % csvData.Count][1]);
+                        }
+                    }
+                    
+                }
+                currentIndex++;
+
                 Account accountForm = Application.OpenForms.OfType<Account>().FirstOrDefault();
                 if (accountForm != null)
                 {
@@ -434,14 +521,28 @@ namespace talktalk
                     accountForm = new Account();
                     accountForm.Show();
                 }
+
                 string filePath = "앞에채우기\\admin.csv";
                 PacketClient.Client clientForm = (PacketClient.Client)Application.OpenForms["Client"];
+
                 if (clientForm != null)
                 {
                     //clientForm.SendFile(filePath);
                 }
+
+                if (currentPlotIndex < lastTenData.Length)
+                {
+                    string[] data = lastTenData[currentPlotIndex].Split(',');
+                    string date = data[0];
+                    double close = double.Parse(data[1]);
+
+                    chart1.Series[0].Points.AddXY(date, close);
+                    currentPlotIndex++;
+                }
             }
         }
+
+       
 
         private void guna2Button6_Click(object sender, EventArgs e)
         {
