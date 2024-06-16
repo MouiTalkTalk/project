@@ -55,12 +55,12 @@ namespace game2
                     MessageBox.Show("winner is Line " + (i + 1).ToString() + "!!");
                     if (i == selected)
                     {
-                        MessageBox.Show("당신의 말이 우승하였습니다. 2000만원 지급!!");
+                        MessageBox.Show("당신의 말이 우승하였습니다. 자산이 2배로 불어납니다.");
                         IsSuccess = true;
                         this.DialogResult = DialogResult.OK;
                     }
                     else {
-                        MessageBox.Show("경마에 재능이 없으시군요.. 500만원을 잃었습니다..");
+                        MessageBox.Show("경마에 재능이 없으시군요. 자산이 절반으로 줄어듭니다.");
                         IsSuccess = false;
                         this.DialogResult = DialogResult.Cancel;
                     }

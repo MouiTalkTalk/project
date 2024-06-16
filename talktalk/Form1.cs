@@ -24,7 +24,7 @@ namespace talktalk
         private List<string[]> csvData;
         private int currentIndex = 51;
         private int countdown = 5;
-        private decimal totalMoney = 1000000m;
+        private int totalMoney = 1000000;
         private string dataDirectory;
         private string[] lastTenData;
         private int currentPlotIndex;
@@ -38,6 +38,7 @@ namespace talktalk
             InitializeCountdownLabel();
             SetDataDirectory();
             InitializeDayCountLabel();
+            UserTotalAsset();
         }
 
         public Form1(string userID)
@@ -51,6 +52,7 @@ namespace talktalk
             UpdateTotalMoneyLabel();
             SetDataDirectory();
             InitializeDayCountLabel();
+            UserTotalAsset();
         }
 
         private void InitializeChart()
@@ -99,7 +101,29 @@ namespace talktalk
 
         private void UpdateTotalMoneyLabel()
         {
-            label1.Text = $"{totalMoney:C}";
+            label1.Text = $"{totalMoney:N0}";
+        }
+
+        private void UserTotalAsset() 
+        {
+            int money = totalMoney;
+            string username = label2.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
+            if (File.Exists(filePath))
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                var totalAssets = lines.Skip(1)
+                               .Select(line => line.Split(',')[2])
+                               .Select(totalAsset =>
+                               {
+                                   int.TryParse(totalAsset, out int result);
+                                   return result;
+                               });
+                int sum = totalAssets.Sum();
+                money += sum;
+            }
+            label6.Text = money.ToString();
         }
 
 
@@ -329,9 +353,10 @@ namespace talktalk
                 ListViewItem item = listView1.SelectedItems[0];
                 decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
                 UpdateCsvFile(filePath, currentItemName, quantityToBuy, price);
-                totalMoney -= price * quantityToBuy;
+                totalMoney -= (int)(price * quantityToBuy);
                 UpdateTotalMoneyLabel();
             }
+            UserTotalAsset();
         }
         private void UpdateCsvFile(string filePath, string itemName, int quantity, decimal price)
         {
@@ -378,7 +403,7 @@ namespace talktalk
                     ListViewItem item = listView1.SelectedItems[0];
                     decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
                     SellItem(filePath, currentItemName, quantityToSell, price);
-                    totalMoney += price * quantityToSell;
+                    totalMoney += (int)(price * quantityToSell);
                     UpdateTotalMoneyLabel();
                 }
             }
@@ -386,6 +411,8 @@ namespace talktalk
             {
                 MessageBox.Show("No inventory file found.");
             }
+
+            UserTotalAsset();
         }
         private int GetCurrentQuantity(string itemName)
         {
@@ -453,11 +480,39 @@ namespace talktalk
 
             if (dResult == DialogResult.OK && news.IsSuccess)
             {
-                MessageBox.Show("News operation was successful.");
+                MessageBox.Show("동전 예측에 성공했습니다.");
+
+                if (listView1.SelectedItems.Count == 1)
+                {
+                    ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                    ListViewItem lvItem = items[0];
+                    string name = lvItem.SubItems[1].Text;
+                    string price = lvItem.SubItems[2].Text;
+                    string filePath2 = GetCsvFilePath(name);
+                    if (File.Exists(filePath2))
+                    {
+                        string[] lines = File.ReadAllLines(filePath2);
+                        csvData = lines.Skip(1).Select(line => line.Split(',')).ToList();
+                        if (csvData != null && csvData.Count > 0)
+                        {
+                            string NowData = csvData[currentIndex][1];
+                            int NowDataN = int.Parse(NowData);
+                            int FutDataN = int.Parse(csvData[currentIndex + 1][1]);
+                            if (NowDataN < FutDataN)
+                            {
+                                MessageBox.Show(name + " 주식은 다음 턴에 좋은 일이 있어 보입니다..");
+                            }
+                            else
+                            {
+                                MessageBox.Show(name + " 주식은 다음 턴에 나쁜 일이 있어 보입니다..");
+                            }
+                        }
+                    }
+                }           
             }
             else
             {
-                MessageBox.Show("News operation failed.");
+                MessageBox.Show("동전 예측에 실패했습니다.");
             }
         }
 
@@ -512,8 +567,6 @@ namespace talktalk
                     UpdateListViewPrice(oldData, csvData[currentIndex][1]);
                 }
                 */
-                dayCount++;
-                label15.Text = "DAY " + dayCount;
 
                 foreach (ListViewItem item in listView1.Items)
                 {
@@ -572,13 +625,15 @@ namespace talktalk
                     accountForm.Show();
                 }
 
-                string filePath = "앞에채우기\\admin.csv";
-                PacketClient.Client clientForm = (PacketClient.Client)Application.OpenForms["Client"];
+/*                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
+                    // label2.Text는 Username, label6.Text는 총자산. label15.Text는 DAY.
+                    int.TryParse(label6.Text, out int total);
+                    clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
-                }
+                }*/
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
@@ -589,6 +644,9 @@ namespace talktalk
                     chart1.Series[0].Points.AddXY(date, close);
                     currentPlotIndex++;
                 }
+
+                dayCount++;
+                label15.Text = "DAY " + dayCount;
             }
         }
 
@@ -601,11 +659,12 @@ namespace talktalk
 
             if (dResult == DialogResult.OK && game1.IsSuccess)
             {
-                MessageBox.Show("News operation was successful.");
+                MessageBox.Show("겜블링 성공 보상으로 10만원이 지급됩니다.");
+                totalMoney += 100000;
             }
             else
             {
-                MessageBox.Show("News operation failed.");
+                MessageBox.Show("겜블링에 실패하셨습니다.");
             }
         }
 
@@ -616,11 +675,13 @@ namespace talktalk
 
             if (dResult == DialogResult.OK && game2.IsSuccess)
             {
-                MessageBox.Show("News operation was successful.");
+                MessageBox.Show("경마 성공 보상으로 자산이 2배로 불어납니다.");
+                totalMoney *= 2;
             }
             else
             {
-                MessageBox.Show("News operation failed.");
+                MessageBox.Show("경마 실패 대가로 자산이 절반으로 줄어듭니다.");
+                totalMoney /= 2;
             }
         }
     }

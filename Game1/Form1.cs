@@ -24,7 +24,7 @@ namespace Game1
         {
             if (present == 2)
             {
-                MessageBox.Show("당첨!! 100만원 지급!!");
+                MessageBox.Show("당첨!! 10만원 지급!!");
                 IsSuccess = true;
                 this.DialogResult = DialogResult.OK;
             }
@@ -42,7 +42,7 @@ namespace Game1
         {
             if (present == 3)
             {
-                MessageBox.Show("당첨!! 100만원 지급!!");
+                MessageBox.Show("당첨!! 10만원 지급!!");
                 IsSuccess = true;
                 this.DialogResult = DialogResult.OK;
             }
@@ -60,7 +60,7 @@ namespace Game1
         {
             if (present == 1)
             {
-                MessageBox.Show("당첨!! 100만원 지급!!");
+                MessageBox.Show("당첨!! 10만원 지급!!");
                 IsSuccess = true;
                 this.DialogResult = DialogResult.OK;
             }
@@ -78,7 +78,7 @@ namespace Game1
         {
             if (present == 4)
             {
-                MessageBox.Show("당첨!! 100만원 지급!!");
+                MessageBox.Show("당첨!! 10만원 지급!!");
                 IsSuccess = true;
                 this.DialogResult = DialogResult.OK;
             }
@@ -96,7 +96,7 @@ namespace Game1
         {
             if (present == 5)
             {
-                MessageBox.Show("당첨!! 100만원 지급!!");
+                MessageBox.Show("당첨!! 10만원 지급!!");
                 IsSuccess = true;
                 this.DialogResult = DialogResult.OK;
             }

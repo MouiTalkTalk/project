@@ -191,5 +191,19 @@ namespace PacketClient
             stream.Flush();
             day_temp++;
         }
+
+        public void TickByForm(string username, int totalAsset, string day)
+        {
+            UserInfo send = new UserInfo();
+            byte[] buffer = new byte[PACKETSIZE];
+            send.Type = (int)PacketType.사용자정보;
+            send.TotalAsset = totalAsset;
+            send.raiseRate = totalAsset / 1000000;
+
+            buffer = Packet.Serialize(send);
+            stream.Write(buffer, 0, buffer.Length);
+            stream.Flush();
+
+        }
     }
 }
