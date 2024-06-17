@@ -29,6 +29,8 @@ namespace talktalk
         private string[] lastTenData;
         private int currentPlotIndex;
         private int dayCount = 1;
+        private bool GameCount = true;
+
 
         public Form1()
         {
@@ -352,8 +354,16 @@ namespace talktalk
             {
                 ListViewItem item = listView1.SelectedItems[0];
                 decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
-                UpdateCsvFile(filePath, currentItemName, quantityToBuy, price);
                 totalMoney -= (int)(price * quantityToBuy);
+
+                if (totalMoney < 0)
+                {
+                    totalMoney += (int)(price * quantityToBuy);
+                    MessageBox.Show("YOU CANNOT BUY.");
+                    return;
+                }
+                UpdateCsvFile(filePath, currentItemName, quantityToBuy, price);
+
                 UpdateTotalMoneyLabel();
             }
             UserTotalAsset();
@@ -475,45 +485,57 @@ namespace talktalk
 
         private void guna2Button5_Click(object sender, EventArgs e)
         {
-            News news = new News();
-            DialogResult dResult = news.ShowDialog();
-
-            if (dResult == DialogResult.OK && news.IsSuccess)
+            if (GameCount)
             {
-                MessageBox.Show("동전 예측에 성공했습니다.");
+                timer.Stop();
+                News news = new News();
+                DialogResult dResult = news.ShowDialog();
 
-                if (listView1.SelectedItems.Count == 1)
+                if (dResult == DialogResult.OK && news.IsSuccess)
                 {
-                    ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
-                    ListViewItem lvItem = items[0];
-                    string name = lvItem.SubItems[1].Text;
-                    string price = lvItem.SubItems[2].Text;
-                    string filePath2 = GetCsvFilePath(name);
-                    if (File.Exists(filePath2))
+                    MessageBox.Show("동전 예측에 성공했습니다.");
+
+                    if (listView1.SelectedItems.Count == 1)
                     {
-                        string[] lines = File.ReadAllLines(filePath2);
-                        csvData = lines.Skip(1).Select(line => line.Split(',')).ToList();
-                        if (csvData != null && csvData.Count > 0)
+                        ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                        ListViewItem lvItem = items[0];
+                        string name = lvItem.SubItems[1].Text;
+                        string price = lvItem.SubItems[2].Text;
+                        string filePath2 = GetCsvFilePath(name);
+                        if (File.Exists(filePath2))
                         {
-                            string NowData = csvData[currentIndex][1];
-                            int NowDataN = int.Parse(NowData);
-                            int FutDataN = int.Parse(csvData[currentIndex + 1][1]);
-                            if (NowDataN < FutDataN)
+                            string[] lines = File.ReadAllLines(filePath2);
+                            csvData = lines.Skip(1).Select(line => line.Split(',')).ToList();
+                            if (csvData != null && csvData.Count > 0)
                             {
-                                MessageBox.Show(name + " 주식은 다음 턴에 좋은 일이 있어 보입니다..");
-                            }
-                            else
-                            {
-                                MessageBox.Show(name + " 주식은 다음 턴에 나쁜 일이 있어 보입니다..");
+                                string NowData = csvData[currentIndex][1];
+                                int NowDataN = int.Parse(NowData);
+                                int FutDataN = int.Parse(csvData[currentIndex + 1][1]);
+                                if (NowDataN < FutDataN)
+                                {
+                                    MessageBox.Show(name + " 주식은 다음 턴에 좋은 일이 있어 보입니다..");
+                                }
+                                else
+                                {
+                                    MessageBox.Show(name + " 주식은 다음 턴에 나쁜 일이 있어 보입니다..");
+                                }
                             }
                         }
                     }
-                }           
+                }
+                else
+                {
+                    MessageBox.Show("동전 예측에 실패했습니다.");
+                }
+
+                GameCount = false;
+                timer.Start();
             }
             else
             {
-                MessageBox.Show("동전 예측에 실패했습니다.");
+                MessageBox.Show("이번 라운드에 게임 횟수를 초과했습니다!");
             }
+ 
         }
 
         private string GetCsvFilePath(string itemName)
@@ -557,7 +579,7 @@ namespace talktalk
 
             if (countdown == 0)
             {
-                /*countdown = 5;*/
+                countdown = 15;
 
                 /*
                 if (csvData != null && csvData.Count > 0)
@@ -625,7 +647,7 @@ namespace talktalk
                     accountForm.Show();
                 }
 
-                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+               /* PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
@@ -633,7 +655,7 @@ namespace talktalk
                     int.TryParse(label6.Text, out int total);
                     clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
-                }
+                }*/
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
@@ -647,6 +669,8 @@ namespace talktalk
 
                 dayCount++;
                 label15.Text = "DAY " + dayCount;
+
+                GameCount = true;
             }
         }
 
@@ -654,41 +678,63 @@ namespace talktalk
 
         private void guna2Button6_Click(object sender, EventArgs e)
         {
-            Game1.Form1 game1 = new Game1.Form1();
-            DialogResult dResult = game1.ShowDialog();
-
-            if (dResult == DialogResult.OK && game1.IsSuccess)
+            if (GameCount)
             {
-                MessageBox.Show("겜블링 성공 보상으로 10만원이 지급됩니다.");
-                totalMoney += 100000;
-                UpdateTotalMoneyLabel();
-                UserTotalAsset();
+                timer.Stop();
+                Game1.Form1 game1 = new Game1.Form1();
+                DialogResult dResult = game1.ShowDialog();
+
+                if (dResult == DialogResult.OK && game1.IsSuccess)
+                {
+                    MessageBox.Show("겜블링 성공 보상으로 10만원이 지급됩니다.");
+                    totalMoney += 100000;
+                    UpdateTotalMoneyLabel();
+                    UserTotalAsset();
+                }
+                else
+                {
+                    MessageBox.Show("겜블링에 실패하셨습니다.");
+                }
+                GameCount = false;
+                timer.Start();
             }
             else
             {
-                MessageBox.Show("겜블링에 실패하셨습니다.");
+                MessageBox.Show("이번 라운드에 게임 횟수를 초과했습니다!");
             }
+
         }
 
         private void guna2Button7_Click(object sender, EventArgs e)
         {
-            game2.Form2 game2 = new game2.Form2();
-            DialogResult dResult = game2.ShowDialog();
+            if(GameCount) {
+                timer.Stop();
+                game2.Form2 game2 = new game2.Form2();
+                DialogResult dResult = game2.ShowDialog();
 
-            if (dResult == DialogResult.OK && game2.IsSuccess)
-            {
-                MessageBox.Show("경마 성공 보상으로 자산이 2배로 불어납니다.");
-                totalMoney *= 2;
-                UpdateTotalMoneyLabel();
-                UserTotalAsset();
-            }
+                if (dResult == DialogResult.OK && game2.IsSuccess)
+                {
+                    MessageBox.Show("경마 성공 보상으로 자산이 2배로 불어납니다.");
+                    totalMoney *= 2;
+                    UpdateTotalMoneyLabel();
+                    UserTotalAsset();
+                }
+                else
+                {
+                    MessageBox.Show("경마 실패 대가로 자산이 절반으로 줄어듭니다.");
+                    totalMoney /= 2;
+                    UpdateTotalMoneyLabel();
+                    UserTotalAsset();
+                }
+                GameCount = false;
+
+                timer.Start();
+        }
             else
             {
-                MessageBox.Show("경마 실패 대가로 자산이 절반으로 줄어듭니다.");
-                totalMoney /= 2;
-                UpdateTotalMoneyLabel();
-                UserTotalAsset();
+                MessageBox.Show("이번 라운드에 게임 횟수를 초과했습니다!");
             }
+    
         }
     }
 }

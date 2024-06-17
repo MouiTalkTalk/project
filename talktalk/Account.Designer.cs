@@ -33,7 +33,6 @@
             this.myInfoPanel = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,20 +50,8 @@
             this.lblAsset = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.rankingPanel = new System.Windows.Forms.Panel();
-            this.lblRank3 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.lblRank2 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.lblRank1 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.myInfoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.rankingPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // myInfoPanel
@@ -72,7 +59,6 @@
             this.myInfoPanel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.myInfoPanel.Controls.Add(this.label5);
             this.myInfoPanel.Controls.Add(this.label9);
-            this.myInfoPanel.Controls.Add(this.button1);
             this.myInfoPanel.Controls.Add(this.dataGridView1);
             this.myInfoPanel.Controls.Add(this.divideline);
             this.myInfoPanel.Controls.Add(this.label8);
@@ -86,7 +72,7 @@
             this.myInfoPanel.Location = new System.Drawing.Point(9, 7);
             this.myInfoPanel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.myInfoPanel.Name = "myInfoPanel";
-            this.myInfoPanel.Size = new System.Drawing.Size(600, 257);
+            this.myInfoPanel.Size = new System.Drawing.Size(600, 399);
             this.myInfoPanel.TabIndex = 1;
             // 
             // label5
@@ -109,17 +95,6 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(573, 6);
             this.label9.TabIndex = 29;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(436, 98);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(67, 23);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView1
             // 
@@ -158,7 +133,7 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(574, 113);
+            this.dataGridView1.Size = new System.Drawing.Size(574, 207);
             this.dataGridView1.TabIndex = 27;
             // 
             // Column1
@@ -320,142 +295,12 @@
             this.label1.Text = "나의 투자정보";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // rankingPanel
-            // 
-            this.rankingPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.rankingPanel.Controls.Add(this.lblRank3);
-            this.rankingPanel.Controls.Add(this.label22);
-            this.rankingPanel.Controls.Add(this.lblRank2);
-            this.rankingPanel.Controls.Add(this.label20);
-            this.rankingPanel.Controls.Add(this.lblRank1);
-            this.rankingPanel.Controls.Add(this.label18);
-            this.rankingPanel.Controls.Add(this.label16);
-            this.rankingPanel.Controls.Add(this.label15);
-            this.rankingPanel.Controls.Add(this.label14);
-            this.rankingPanel.Controls.Add(this.label2);
-            this.rankingPanel.Location = new System.Drawing.Point(9, 272);
-            this.rankingPanel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.rankingPanel.Name = "rankingPanel";
-            this.rankingPanel.Size = new System.Drawing.Size(600, 138);
-            this.rankingPanel.TabIndex = 2;
-            // 
-            // lblRank3
-            // 
-            this.lblRank3.AutoSize = true;
-            this.lblRank3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRank3.Location = new System.Drawing.Point(352, 107);
-            this.lblRank3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblRank3.Name = "lblRank3";
-            this.lblRank3.Size = new System.Drawing.Size(50, 20);
-            this.lblRank3.TabIndex = 22;
-            this.lblRank3.Text = "- 1.3%";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(201, 107);
-            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(42, 20);
-            this.label22.TabIndex = 21;
-            this.label22.Text = "최XX";
-            // 
-            // lblRank2
-            // 
-            this.lblRank2.AutoSize = true;
-            this.lblRank2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRank2.Location = new System.Drawing.Point(352, 80);
-            this.lblRank2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblRank2.Name = "lblRank2";
-            this.lblRank2.Size = new System.Drawing.Size(54, 20);
-            this.lblRank2.TabIndex = 20;
-            this.lblRank2.Text = "+ 0.0%";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(201, 80);
-            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(42, 20);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "이XX";
-            // 
-            // lblRank1
-            // 
-            this.lblRank1.AutoSize = true;
-            this.lblRank1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRank1.Location = new System.Drawing.Point(352, 52);
-            this.lblRank1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblRank1.Name = "lblRank1";
-            this.lblRank1.Size = new System.Drawing.Size(54, 20);
-            this.lblRank1.TabIndex = 18;
-            this.lblRank1.Text = "+ 4.7%";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(201, 52);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(42, 20);
-            this.label18.TabIndex = 17;
-            this.label18.Text = "김XX";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(165, 107);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(24, 20);
-            this.label16.TabIndex = 15;
-            this.label16.Text = "3. ";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(165, 80);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(24, 20);
-            this.label15.TabIndex = 14;
-            this.label15.Text = "2. ";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(165, 52);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(24, 20);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "1. ";
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(222, 6);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(159, 25);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "투자 랭킹";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Account
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(617, 416);
-            this.Controls.Add(this.rankingPanel);
             this.Controls.Add(this.myInfoPanel);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Account";
@@ -464,8 +309,6 @@
             this.myInfoPanel.ResumeLayout(false);
             this.myInfoPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.rankingPanel.ResumeLayout(false);
-            this.rankingPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -474,7 +317,6 @@
 
         private System.Windows.Forms.Panel myInfoPanel;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label divideline;
         private System.Windows.Forms.Label label8;
@@ -484,17 +326,6 @@
         private System.Windows.Forms.Label lblAsset;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel rankingPanel;
-        private System.Windows.Forms.Label lblRank3;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label lblRank2;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label lblRank1;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
