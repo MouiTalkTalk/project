@@ -92,7 +92,7 @@ namespace talktalk
         {
             Label label15 = new Label();
             label15.Name = "label15";
-            label15.Text = "DAY 1";
+            label15.Text = "DAY1";
             label15.AutoSize = true;
             this.Controls.Add(label15);
         }
@@ -418,8 +418,8 @@ namespace talktalk
                     ListViewItem item = listView1.SelectedItems[0];
                     decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
                     SellItem(filePath, currentItemName, quantityToSell, price);
-                    totalMoney += (int)(price * quantityToSell);
-                    UpdateTotalMoneyLabel();
+                    /*totalMoney += (int)(price * quantityToSell);
+                    UpdateTotalMoneyLabel();*/
                 }
             }
             else
@@ -474,6 +474,8 @@ namespace talktalk
                         lines.RemoveAt(i);
                     }
                     itemUpdated = true;
+                    totalMoney += (int)(price * quantityToSell);
+                    UpdateTotalMoneyLabel();
                     break;
                 }
             }
@@ -686,7 +688,7 @@ namespace talktalk
                 }
 
                 dayCount++;
-                label15.Text = "DAY " + dayCount;
+                label15.Text = "DAY" + dayCount;
 
                 GameCount = true;
             }
