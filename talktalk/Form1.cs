@@ -272,7 +272,8 @@ namespace talktalk
             double averageInterval = (maxClose - minClose) / 5;
             chart1.ChartAreas[0].AxisY.Interval = averageInterval;
 
-            for (int i = 1; i < csvLines.Length - 10; i++)
+            //for (int i = 1; i < csvLines.Length - 10; i++)
+            for (int i = 1; i < currentIndex + 2; i++)
             {
                 string[] data = csvLines[i].Split(',');
                 string date = data[0];
@@ -281,7 +282,8 @@ namespace talktalk
                 series.Points.AddXY(date, close);
             }
 
-            lastTenData = csvLines.Skip(csvLines.Length - 10).ToArray();
+            //lastTenData = csvLines.Skip(csvLines.Length - 10).ToArray();
+            lastTenData = csvLines.Skip(currentIndex + 2).ToArray();
             currentPlotIndex = 0;
 
             chart1.Series.Add(series);
