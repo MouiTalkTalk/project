@@ -14,12 +14,14 @@ using PacketClient;
 using PacketServer;
 using Game1;
 using game2;
-
+using System.Globalization;
 
 namespace talktalk
 {
     public partial class Form1 : Form
     {
+        DateTime currentDate = DateTime.Now;
+
         private Timer timer;
         private List<string[]> csvData;
         private int currentIndex = 51;
@@ -581,6 +583,16 @@ namespace talktalk
             {
                 countdown = 15;
 
+                var random = new Random();
+                string[] stocks = new string[7] { "celltrion", "hyundai", "kbbank", "krafton", "lgenergysolution", "naver", "samsung" };
+                for(int i = 0; i<7; i++)
+                {
+                    string filename = stocks[i] + ".csv";
+                    string filePath = Path.Combine(dataDirectory, filename);
+                    UpdateStockFile(filePath, random);
+                }
+                currentDate = currentDate.AddDays(1);
+
                 /*
                 if (csvData != null && csvData.Count > 0)
                 {
@@ -736,5 +748,53 @@ namespace talktalk
             }
     
         }
+
+        private void UpdateStockFile(string filePath, Random random)
+        {
+            var lines = new List<string>(File.ReadAllLines(filePath));
+
+            // 기본 변동
+            decimal changePercent = (decimal)(random.Next(1, 5) * 0.1 - 0.05);
+
+            // 이전 주가 데이터 활용 (이동 평균)
+            decimal previousPriceImpact = 0;
+            int previousPrices = 0;
+            int currentPrice = 0;
+            string dateString = "3/4/24";
+            DateTime date = DateTime.ParseExact(dateString, "d/M/yy", CultureInfo.InvariantCulture);
+
+            // GregorianCalendar 객체 생성
+            GregorianCalendar calendar = new GregorianCalendar();
+
+            // GregorianCalendar에서 DateTime 객체 사용
+            int year = calendar.GetYear(date);
+            int month = calendar.GetMonth(date);
+            int day = calendar.GetDayOfMonth(date);
+
+            for (int i = 1; i < 5; i++)
+            {
+                string[] fields = lines[i].Split(',');
+                previousPrices += int.Parse(fields[1]);
+                currentPrice = int.Parse(fields[1]);               
+            }
+            decimal averagePreviousPrice = previousPrices / 4;
+            previousPriceImpact = (currentPrice - averagePreviousPrice) * 0.000001m;
+
+            // 종합 변동률 계산
+            decimal totalChangePercent = changePercent + previousPriceImpact;
+            totalChangePercent = Math.Round(totalChangePercent, 2);
+
+            // 새로운 주가 계산
+            decimal nextPrice = currentPrice * (1 + totalChangePercent);
+
+            // 현재 날짜를 "d/M/yy" 형식으로 변환하기
+            string formattedDate = currentDate.ToString("d/M/yy", CultureInfo.InvariantCulture);
+            string line = $"{formattedDate},{Convert.ToInt32(nextPrice)}";
+            lines.Add(line);
+            
+
+            File.WriteAllLines(filePath, lines);
+        }
+
     }
 }
