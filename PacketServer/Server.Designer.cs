@@ -40,27 +40,30 @@
             // 
             // richUsrText
             // 
-            this.richUsrText.Location = new System.Drawing.Point(12, 64);
+            this.richUsrText.Location = new System.Drawing.Point(17, 96);
+            this.richUsrText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.richUsrText.Name = "richUsrText";
             this.richUsrText.ReadOnly = true;
-            this.richUsrText.Size = new System.Drawing.Size(565, 340);
+            this.richUsrText.Size = new System.Drawing.Size(752, 508);
             this.richUsrText.TabIndex = 1;
             this.richUsrText.Text = "";
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(13, 411);
+            this.txtMessage.Location = new System.Drawing.Point(19, 616);
+            this.txtMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMessage.MaxLength = 300;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(705, 21);
+            this.txtMessage.Size = new System.Drawing.Size(1005, 28);
             this.txtMessage.TabIndex = 2;
             this.txtMessage.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyUp);
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(724, 411);
+            this.btnSend.Location = new System.Drawing.Point(1034, 616);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(64, 23);
+            this.btnSend.Size = new System.Drawing.Size(91, 34);
             this.btnSend.TabIndex = 3;
             this.btnSend.Text = "전송";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -69,53 +72,58 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 23);
+            this.label1.Location = new System.Drawing.Point(19, 34);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.Size = new System.Drawing.Size(98, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "서버 상태 :";
             // 
             // ServerState
             // 
             this.ServerState.AutoSize = true;
-            this.ServerState.Location = new System.Drawing.Point(84, 23);
+            this.ServerState.Location = new System.Drawing.Point(120, 34);
+            this.ServerState.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ServerState.Name = "ServerState";
-            this.ServerState.Size = new System.Drawing.Size(30, 12);
+            this.ServerState.Size = new System.Drawing.Size(45, 18);
             this.ServerState.TabIndex = 5;
             this.ServerState.Text = "Stop";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(158, 23);
+            this.label2.Location = new System.Drawing.Point(226, 34);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 12);
+            this.label2.Size = new System.Drawing.Size(171, 18);
             this.label2.TabIndex = 7;
             this.label2.Text = "접속한 Client 숫자 : ";
             // 
             // ConnClientNum
             // 
             this.ConnClientNum.AutoSize = true;
-            this.ConnClientNum.Location = new System.Drawing.Point(281, 23);
+            this.ConnClientNum.Location = new System.Drawing.Point(401, 34);
+            this.ConnClientNum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ConnClientNum.Name = "ConnClientNum";
-            this.ConnClientNum.Size = new System.Drawing.Size(11, 12);
+            this.ConnClientNum.Size = new System.Drawing.Size(18, 18);
             this.ConnClientNum.TabIndex = 8;
             this.ConnClientNum.Text = "0";
             // 
             // UsrList
             // 
             this.UsrList.HideSelection = false;
-            this.UsrList.Location = new System.Drawing.Point(597, 64);
+            this.UsrList.Location = new System.Drawing.Point(777, 96);
+            this.UsrList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.UsrList.Name = "UsrList";
-            this.UsrList.Size = new System.Drawing.Size(191, 340);
+            this.UsrList.Size = new System.Drawing.Size(347, 508);
             this.UsrList.TabIndex = 9;
             this.UsrList.UseCompatibleStateImageBehavior = false;
             // 
             // Server
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1143, 675);
             this.Controls.Add(this.UsrList);
             this.Controls.Add(this.ConnClientNum);
             this.Controls.Add(this.label2);
@@ -124,6 +132,7 @@
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.richUsrText);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Server_FormClosed);

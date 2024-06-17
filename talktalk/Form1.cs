@@ -14,6 +14,8 @@ using PacketClient;
 using PacketServer;
 using Game1;
 using game2;
+using System.Net;
+using System.Net.Sockets;
 
 
 namespace talktalk
@@ -30,6 +32,9 @@ namespace talktalk
         private int currentPlotIndex;
         private int dayCount = 1;
         private bool GameCount = true;
+
+        private TcpClient client = new TcpClient();
+        private StreamWriter streamWrite = null;
 
 
         public Form1()
@@ -647,7 +652,19 @@ namespace talktalk
                     accountForm.Show();
                 }
 
-               /* PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+                if (!client.Connected)
+                {
+                    this.client.Connect(IPAddress.Parse("127.0.0.1"), 16000);
+                }
+                if (this.streamWrite == null)
+                {
+                    this.streamWrite = new StreamWriter(client.GetStream());
+                }
+
+                streamWrite.WriteLine(label2.Text + "," + label6.Text + "," + label15.Text);
+                streamWrite.Flush();
+                /*
+                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
@@ -655,7 +672,8 @@ namespace talktalk
                     int.TryParse(label6.Text, out int total);
                     clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
-                }*/
+                }
+                */
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
