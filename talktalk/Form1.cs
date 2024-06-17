@@ -760,16 +760,6 @@ namespace talktalk
             decimal previousPriceImpact = 0;
             int previousPrices = 0;
             int currentPrice = 0;
-            string dateString = "3/4/24";
-            DateTime date = DateTime.ParseExact(dateString, "d/M/yy", CultureInfo.InvariantCulture);
-
-            // GregorianCalendar 객체 생성
-            GregorianCalendar calendar = new GregorianCalendar();
-
-            // GregorianCalendar에서 DateTime 객체 사용
-            int year = calendar.GetYear(date);
-            int month = calendar.GetMonth(date);
-            int day = calendar.GetDayOfMonth(date);
 
             for (int i = 1; i < 5; i++)
             {
