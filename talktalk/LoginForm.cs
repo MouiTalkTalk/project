@@ -25,7 +25,7 @@ namespace talktalk
                 serverForm.Show();
                 this.Hide();
             }
-            else if (txtUsername.Text.Equals("user1"))
+            else if (!txtUsername.Text.Equals(string.Empty))
             {
                 PacketClient.Client clientForm = new PacketClient.Client(txtUsername.Text);
                 clientForm.Show();
