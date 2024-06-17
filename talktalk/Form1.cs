@@ -23,7 +23,7 @@ namespace talktalk
         private Timer timer;
         private List<string[]> csvData;
         private int currentIndex = 51;
-        private int countdown = 5;
+        private int countdown = 15;
         private int totalMoney = 1000000;
         private string dataDirectory;
         private string[] lastTenData;
@@ -557,7 +557,7 @@ namespace talktalk
 
             if (countdown == 0)
             {
-                countdown = 5;
+                /*countdown = 5;*/
 
                 /*
                 if (csvData != null && csvData.Count > 0)
@@ -625,7 +625,7 @@ namespace talktalk
                     accountForm.Show();
                 }
 
-/*                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
@@ -633,7 +633,7 @@ namespace talktalk
                     int.TryParse(label6.Text, out int total);
                     clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
-                }*/
+                }
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
@@ -661,6 +661,8 @@ namespace talktalk
             {
                 MessageBox.Show("겜블링 성공 보상으로 10만원이 지급됩니다.");
                 totalMoney += 100000;
+                UpdateTotalMoneyLabel();
+                UserTotalAsset();
             }
             else
             {
@@ -677,11 +679,15 @@ namespace talktalk
             {
                 MessageBox.Show("경마 성공 보상으로 자산이 2배로 불어납니다.");
                 totalMoney *= 2;
+                UpdateTotalMoneyLabel();
+                UserTotalAsset();
             }
             else
             {
                 MessageBox.Show("경마 실패 대가로 자산이 절반으로 줄어듭니다.");
                 totalMoney /= 2;
+                UpdateTotalMoneyLabel();
+                UserTotalAsset();
             }
         }
     }

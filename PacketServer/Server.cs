@@ -37,6 +37,7 @@ namespace PacketServer
             public string userName;
             public int totalAsset;
             public double raiseRate;
+            public string dayDay;
 
             public TcpClient tcpclient;
             public NetworkStream networkstream;
@@ -49,17 +50,19 @@ namespace PacketServer
                 this.userName = string.Empty;
                 this.totalAsset = 0;
                 this.raiseRate = 0;
+                this.dayDay = string.Empty;
                 tcpclient = null;
                 networkstream = null;
                 thread = null;
                 userOn = false;
             }
 
-            public void SetUser(string userName, int totalAsset, double raiseRate)
+            public void SetUser(string userName, int totalAsset, double raiseRate, string dayDay)
             {
                 this.userName=userName;
                 this.totalAsset = totalAsset;
                 this.raiseRate = raiseRate;
+                this.dayDay = dayDay;
             }
         }
 
@@ -215,6 +218,7 @@ namespace PacketServer
                                     {
                                         a.totalAsset = packet_userInfo.TotalAsset;
                                         a.raiseRate = packet_userInfo.raiseRate;
+                                        a.dayDay = packet_userInfo.dayDay;
                                     }
                                 }
                                 UpdateUserList();
@@ -254,7 +258,7 @@ namespace PacketServer
         {
             this.Invoke(new MethodInvoker(delegate ()
             {
-                UsrList.Items.Add(new ListViewItem(new string[] { newUser.userName, newUser.totalAsset.ToString(), newUser.raiseRate.ToString() }));
+                UsrList.Items.Add(new ListViewItem(new string[] { newUser.userName, newUser.totalAsset.ToString(), newUser.raiseRate.ToString(), "DAY 1" }));
             }));
         }
 
@@ -265,7 +269,7 @@ namespace PacketServer
                 UsrList.Items.Clear();
                 foreach (User i in users)
                 {
-                    UsrList.Items.Add(new ListViewItem(new string[] { i.userName, i.totalAsset.ToString(), i.raiseRate.ToString() }));
+                    UsrList.Items.Add(new ListViewItem(new string[] { i.userName, i.totalAsset.ToString(), i.raiseRate.ToString(), i.dayDay }));
                 }
             }));
         }
@@ -346,6 +350,7 @@ namespace PacketServer
             this.UsrList.Columns.Add("name", "이름");
             this.UsrList.Columns.Add("TotalAsset", "총자산");
             this.UsrList.Columns.Add("RaiseRate", "수익률");
+            this.UsrList.Columns.Add("dayDay", "라운드");
         }
 
         private void Server_FormClosed(object sender, FormClosedEventArgs e)

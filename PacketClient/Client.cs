@@ -179,7 +179,7 @@ namespace PacketClient
         int day_temp = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            UserInfo send = new UserInfo();
+/*            UserInfo send = new UserInfo();
             byte[] buffer = new byte[PACKETSIZE];
 
             send.Type = (int)PacketType.사용자정보;
@@ -189,7 +189,7 @@ namespace PacketClient
             buffer = Packet.Serialize(send);
             stream.Write(buffer, 0, buffer.Length);
             stream.Flush();
-            day_temp++;
+            day_temp++;*/
         }
 
         public void TickByForm(string username, int totalAsset, string day)
@@ -198,7 +198,8 @@ namespace PacketClient
             byte[] buffer = new byte[PACKETSIZE];
             send.Type = (int)PacketType.사용자정보;
             send.TotalAsset = totalAsset;
-            send.raiseRate = totalAsset / 1000000;
+            send.raiseRate = (double) (totalAsset / 1000000);
+            send.dayDay = day;
 
             buffer = Packet.Serialize(send);
             stream.Write(buffer, 0, buffer.Length);
