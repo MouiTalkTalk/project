@@ -119,16 +119,20 @@ namespace talktalk
             string filePath = Path.Combine(dataDirectory, filename);
             if (File.Exists(filePath))
             {
-                string[] lines = File.ReadAllLines(filePath);
-                var totalAssets = lines.Skip(1)
-                               .Select(line => line.Split(',')[2])
-                               .Select(totalAsset =>
-                               {
-                                   int.TryParse(totalAsset, out int result);
-                                   return result;
-                               });
-                int sum = totalAssets.Sum();
-                money += sum;
+                var lines = File.ReadAllLines(filePath);
+                foreach (string line in lines)
+                {
+                    string[] fields = line.Split(',');
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        if (fields[0] == item.SubItems[1].Text)
+                        {
+                            int asset = int.Parse(item.SubItems[2].Text.Replace(",", ""));
+                            int totalast = asset * int.Parse(fields[1]);
+                            money += totalast;
+                        }
+                    }
+                }
             }
             label6.Text = money.ToString();
         }
@@ -616,6 +620,7 @@ namespace talktalk
                 }
                 currentIndex++;
 
+                UserTotalAsset();
 
                 if (listView1.SelectedItems.Count == 1)
                 {
@@ -688,12 +693,14 @@ namespace talktalk
                 }
 
                 dayCount++;
-                if(dayCount == 2)
+                if(dayCount == 3)
                 {
                     timer.Stop();
                     this.Visible = false;
-                    Ranking ranking = new Ranking();
+                    double raiseRate = double.Parse(label6.Text) / 1000000 - (double)1;
+                    Ranking ranking = new Ranking(label2.Text, raiseRate);
                     ranking.Show();
+
                 }
                 label15.Text = "DAY" + dayCount;
 

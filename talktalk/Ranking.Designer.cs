@@ -78,7 +78,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 20);
             this.label5.TabIndex = 26;
-            this.label5.Text = "나의 등수";
+            this.label5.Text = "나의 수익";
             // 
             // lblMyRatio
             // 
@@ -98,9 +98,9 @@
             this.lblMyName.Location = new System.Drawing.Point(58, 192);
             this.lblMyName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMyName.Name = "lblMyName";
-            this.lblMyName.Size = new System.Drawing.Size(42, 20);
+            this.lblMyName.Size = new System.Drawing.Size(36, 20);
             this.lblMyName.TabIndex = 24;
-            this.lblMyName.Text = "최XX";
+            this.lblMyName.Text = "user";
             // 
             // lblMyRank
             // 
