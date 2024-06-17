@@ -788,11 +788,10 @@ namespace talktalk
             decimal nextPrice = currentPrice * (1 + totalChangePercent);
 
             // 현재 날짜를 "d/M/yy" 형식으로 변환하기
-            string formattedDate = currentDate.ToString("d/M/yy", CultureInfo.InvariantCulture);
+            string formattedDate = currentDate.ToString("M/d/yy", CultureInfo.InvariantCulture);
             string line = $"{formattedDate},{Convert.ToInt32(nextPrice)}";
             lines.Add(line);
             
-
             File.WriteAllLines(filePath, lines);
         }
 
