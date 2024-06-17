@@ -329,9 +329,7 @@ namespace talktalk
         private void guna2Button3_Click(object sender, EventArgs e)
         {
             PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
-            PacketServer.Server serverForm = new PacketServer.Server();
             clientForm.Show();
-            serverForm.Show();
         }
 
         private string currentItemName;
