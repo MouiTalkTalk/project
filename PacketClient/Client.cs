@@ -45,7 +45,7 @@ namespace PacketClient
             btnConnect.Enabled = false;
             txtUserName.Text = username;
 
-            this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 16000);
+            this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 16000 + username.Length);
             this.from_form1 = new Thread(new ThreadStart(Rank_update));
             from_form1.Start();
         }
@@ -72,7 +72,14 @@ namespace PacketClient
                 byte[] buffer = new byte[PACKETSIZE];
                 Packet packet = new Packet();
 
-                stream.Read(buffer, 0, buffer.Length);
+                try
+                {
+                    stream.Read(buffer, 0, buffer.Length);
+                }
+                catch
+                {
+                    return;
+                }
                 packet = (Packet)Packet.Deserialize(buffer);
                 switch ((int)packet.Type)
                 {
@@ -203,7 +210,14 @@ namespace PacketClient
                 send.dayDay = info[2];
 
                 buffer = Packet.Serialize(send);
-                stream.Write(buffer, 0, buffer.Length);
+                try
+                {
+                    stream.Write(buffer, 0, buffer.Length);
+                }
+                catch
+                {
+                    return;
+                }
                 stream.Flush();
             }
 

@@ -661,7 +661,7 @@ namespace talktalk
 
                 if (!client.Connected)
                 {
-                    this.client.Connect(IPAddress.Parse("127.0.0.1"), 16000);
+                    this.client.Connect(IPAddress.Parse("127.0.0.1"), 16000 + label2.Text.Length);
                 }
                 if (this.streamWrite == null)
                 {
@@ -693,7 +693,7 @@ namespace talktalk
                 }
 
                 dayCount++;
-                if(dayCount == 3)
+                if(dayCount == 9)
                 {
                     timer.Stop();
                     this.Visible = false;

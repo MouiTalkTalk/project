@@ -37,7 +37,7 @@ namespace talktalk
             SetDataDirectory();
             this.StartPosition = FormStartPosition.CenterScreen;
             lblMyName.Text = name;
-            lblMyRatio.Text = RaiseRate.ToString();
+            lblMyRatio.Text = FormatRatio(RaiseRate.ToString());
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
