@@ -665,8 +665,8 @@ namespace talktalk
 
                 streamWrite.WriteLine(label2.Text + "," + label6.Text + "," + label15.Text);
                 streamWrite.Flush();
-                /*
-                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+
+/*                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
@@ -675,7 +675,7 @@ namespace talktalk
                     clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
                 }
-                */
+*/
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
@@ -688,6 +688,13 @@ namespace talktalk
                 }
 
                 dayCount++;
+                if(dayCount == 2)
+                {
+                    timer.Stop();
+                    this.Visible = false;
+                    Ranking ranking = new Ranking();
+                    ranking.Show();
+                }
                 label15.Text = "DAY" + dayCount;
 
                 GameCount = true;

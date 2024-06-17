@@ -79,5 +79,9 @@ namespace talktalk
             }
         }
 
+        private void Ranking_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
