@@ -386,5 +386,38 @@ namespace PacketServer
             }
         }
 
+/*        private void SendFileToServer(string filePath)
+        { // 파일 핸들링 서버
+            try
+            {
+                string serverIP = "127.0.0.1";
+                int serverPort = 9876;
+
+                using (TcpClient client = new TcpClient(serverIP, serverPort))
+                {
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        byte[] fileNameBytes = System.Text.Encoding.ASCII.GetBytes(Path.GetFileName(filePath));
+                        byte[] fileNameLengthBytes = BitConverter.GetBytes(fileNameBytes.Length);
+                        stream.Write(fileNameLengthBytes, 0, 4);
+                        stream.Write(fileNameBytes, 0, fileNameBytes.Length);
+
+                        byte[] fileBytes = File.ReadAllBytes(filePath);
+                        byte[] fileLengthBytes = BitConverter.GetBytes(fileBytes.Length);
+                        stream.Write(fileLengthBytes, 0, 4);
+                        stream.Write(fileBytes, 0, fileBytes.Length);
+                    }
+                }
+
+                MessageBox.Show("파일이 성공적으로 전송되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("파일 전송 중 오류가 발생했습니다: " + ex.Message);
+            }
+        }*/
+
+
+
     } // form
 } // namespace

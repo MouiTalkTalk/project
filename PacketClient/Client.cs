@@ -234,5 +234,39 @@ namespace PacketClient
             catch { return; }
         }
 
+/*        private void HandleClientConnection(object obj)
+        {   // 파일 핸들링 클라이언트
+            TcpClient client = (TcpClient)obj;
+            NetworkStream stream = client.GetStream();
+
+            byte[] fileNameLengthBytes = new byte[4];
+            stream.Read(fileNameLengthBytes, 0, 4);
+            int fileNameLength = BitConverter.ToInt32(fileNameLengthBytes, 0);
+
+            byte[] fileNameBytes = new byte[fileNameLength];
+            stream.Read(fileNameBytes, 0, fileNameLength);
+            string fileName = System.Text.Encoding.ASCII.GetString(fileNameBytes);
+
+            byte[] fileLengthBytes = new byte[4];
+            stream.Read(fileLengthBytes, 0, 4);
+            int fileLength = BitConverter.ToInt32(fileLengthBytes, 0);
+
+            byte[] fileBytes = new byte[fileLength]; // fileBytes 변수 선언
+            int bytesRead = 0;
+            while (bytesRead < fileLength)
+            {
+                int bytesToRead = Math.Min(1024, fileLength - bytesRead);
+                int bytesReceived = stream.Read(fileBytes, bytesRead, bytesToRead);
+                bytesRead += bytesReceived;
+            }
+
+            string filePath = Path.Combine(@"C:\Received", fileName);
+            File.WriteAllBytes(filePath, fileBytes);
+
+            Console.WriteLine("파일이 성공적으로 수신되었습니다: " + filePath);
+
+            client.Close();
+        }*/
+
     }
 }
