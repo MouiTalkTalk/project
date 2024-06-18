@@ -20,11 +20,11 @@ namespace talktalk
 {
     public partial class Form1 : Form
     {
-        DateTime currentDate = DateTime.Now;
+        DateTime currentDate = new DateTime(2024, 6, 4);
 
         private Timer timer;
         private List<string[]> csvData;
-        private int currentIndex = 51;
+        private int currentIndex = 60;
         private int countdown = 15;
         private int totalMoney = 1000000;
         private string dataDirectory;
@@ -186,26 +186,33 @@ namespace talktalk
         {
             guna2ShadowForm1.SetShadowForm(this);
 
-            String[] samsung = { "01", "SAMSUNG", "78900", "up", "1.94%" };
+            var stocks = new string[] { "celltrion", "hyundai", "kbbank", "krafton", "lgenergysolution", "naver", "samsung" };
+            foreach (var stock in stocks)
+            {
+                string filePath2 = GetCsvFilePath(stock);
+                ClearCsvFile(filePath2);
+            }
+
+            String[] samsung = { "01", "SAMSUNG", "73500", "same", "0.00%" };
             ListViewItem newitem1 = new ListViewItem(samsung);
             listView1.Items.Add(newitem1);
 
-            String[] naver = { "02", "NAVER", "184000", "down", "-1.76%" };
+            String[] naver = { "02", "NAVER", "170200", "down", "-0.10%" };
             listView1.Items.Add(new ListViewItem(naver));
 
-            String[] hyundai = { "03", "Hyundai", "250500", "up", "2.66%" };
+            String[] hyundai = { "03", "Hyundai", "253000", "down", "-1.56%" };
             listView1.Items.Add(new ListViewItem(hyundai));
 
-            String[] celltrion = { "04", "Celltrion", "191500", "down", "-2.35%" };
+            String[] celltrion = { "04", "Celltrion", "176200", "down", "-0.62%" };
             listView1.Items.Add(new ListViewItem(celltrion));
 
-            String[] kb = { "05", "KBBank", "81600", "up", "1.87%" };
+            String[] kb = { "05", "KBBank", "79400", "up", "0.89%" };
             listView1.Items.Add(new ListViewItem(kb));
 
-            String[] krafton = { "06", "Krafton", "242500", "down", "-2.13%" };
+            String[] krafton = { "06", "Krafton", "250000", "down", "-0.40%" };
             listView1.Items.Add(new ListViewItem(krafton));
 
-            String[] lgenergysolution = { "07", "LGEnergySolution", "372000", "down", "-1.20%" };
+            String[] lgenergysolution = { "07", "LGEnergySolution", "331000", "up", "0.12%" };
             listView1.Items.Add(new ListViewItem(lgenergysolution));
 
             string filePath = Path.Combine(dataDirectory, "samsung.csv");
@@ -754,7 +761,7 @@ namespace talktalk
             var lines = new List<string>(File.ReadAllLines(filePath));
 
             // 기본 변동
-            decimal changePercent = (decimal)(random.Next(1, 5) * 0.1 - 0.05);
+            decimal changePercent = (decimal)(random.NextDouble() * 0.04 - 0.02);
 
             // 이전 주가 데이터 활용 (이동 평균)
             decimal previousPriceImpact = 0;
@@ -768,7 +775,7 @@ namespace talktalk
                 currentPrice = int.Parse(fields[1]);               
             }
             decimal averagePreviousPrice = previousPrices / 4;
-            previousPriceImpact = (currentPrice - averagePreviousPrice) * 0.000001m;
+            previousPriceImpact = (currentPrice - averagePreviousPrice) * 0.0000005m;
 
             // 종합 변동률 계산
             decimal totalChangePercent = changePercent + previousPriceImpact;
@@ -776,6 +783,7 @@ namespace talktalk
 
             // 새로운 주가 계산
             decimal nextPrice = currentPrice * (1 + totalChangePercent);
+            nextPrice = Math.Round(nextPrice / 100) * 100;
 
             // 현재 날짜를 "d/M/yy" 형식으로 변환하기
             string formattedDate = currentDate.ToString("M/d/yy", CultureInfo.InvariantCulture);
@@ -785,5 +793,17 @@ namespace talktalk
             File.WriteAllLines(filePath, lines);
         }
 
+        private void ClearCsvFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                var lines = File.ReadAllLines(filePath).ToList();
+                if (lines.Count > 63)
+                {
+                    lines = lines.Take(63).ToList();
+                    File.WriteAllLines(filePath, lines);
+                }
+            }
+        }
     }
 }
