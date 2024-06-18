@@ -102,7 +102,6 @@ namespace PacketServer
                         }
                         if (stream == null)
                         {
-                            stream.Close();
                             continue;
                         }
                             
