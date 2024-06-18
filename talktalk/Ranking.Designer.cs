@@ -32,7 +32,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblMyRatio = new System.Windows.Forms.Label();
             this.lblMyName = new System.Windows.Forms.Label();
-            this.lblMyRank = new System.Windows.Forms.Label();
             this.lblThirdRatio = new System.Windows.Forms.Label();
             this.lblThirdName = new System.Windows.Forms.Label();
             this.lblSecondRatio = new System.Windows.Forms.Label();
@@ -52,7 +51,6 @@
             this.rankingPanel.Controls.Add(this.label5);
             this.rankingPanel.Controls.Add(this.lblMyRatio);
             this.rankingPanel.Controls.Add(this.lblMyName);
-            this.rankingPanel.Controls.Add(this.lblMyRank);
             this.rankingPanel.Controls.Add(this.lblThirdRatio);
             this.rankingPanel.Controls.Add(this.lblThirdName);
             this.rankingPanel.Controls.Add(this.lblSecondRatio);
@@ -101,17 +99,6 @@
             this.lblMyName.Size = new System.Drawing.Size(36, 20);
             this.lblMyName.TabIndex = 24;
             this.lblMyName.Text = "user";
-            // 
-            // lblMyRank
-            // 
-            this.lblMyRank.AutoSize = true;
-            this.lblMyRank.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMyRank.Location = new System.Drawing.Point(23, 192);
-            this.lblMyRank.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMyRank.Name = "lblMyRank";
-            this.lblMyRank.Size = new System.Drawing.Size(24, 20);
-            this.lblMyRank.TabIndex = 23;
-            this.lblMyRank.Text = "3. ";
             // 
             // lblThirdRatio
             // 
@@ -255,6 +242,5 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblMyRatio;
         private System.Windows.Forms.Label lblMyName;
-        private System.Windows.Forms.Label lblMyRank;
     }
 }
