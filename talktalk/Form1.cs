@@ -15,6 +15,9 @@ using PacketServer;
 using Game1;
 using game2;
 using System.Globalization;
+using System.Net;
+using System.Net.Sockets;
+
 
 namespace talktalk
 {
@@ -32,6 +35,9 @@ namespace talktalk
         private int currentPlotIndex;
         private int dayCount = 1;
         private bool GameCount = true;
+
+        private TcpClient client = new TcpClient();
+        private StreamWriter streamWrite = null;
 
 
         public Form1()
@@ -89,7 +95,7 @@ namespace talktalk
         {
             Label label15 = new Label();
             label15.Name = "label15";
-            label15.Text = "DAY 1";
+            label15.Text = "DAY1";
             label15.AutoSize = true;
             this.Controls.Add(label15);
         }
@@ -116,16 +122,20 @@ namespace talktalk
             string filePath = Path.Combine(dataDirectory, filename);
             if (File.Exists(filePath))
             {
-                string[] lines = File.ReadAllLines(filePath);
-                var totalAssets = lines.Skip(1)
-                               .Select(line => line.Split(',')[2])
-                               .Select(totalAsset =>
-                               {
-                                   int.TryParse(totalAsset, out int result);
-                                   return result;
-                               });
-                int sum = totalAssets.Sum();
-                money += sum;
+                var lines = File.ReadAllLines(filePath);
+                foreach (string line in lines)
+                {
+                    string[] fields = line.Split(',');
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        if (fields[0] == item.SubItems[1].Text)
+                        {
+                            int asset = int.Parse(item.SubItems[2].Text.Replace(",", ""));
+                            int totalast = asset * int.Parse(fields[1]);
+                            money += totalast;
+                        }
+                    }
+                }
             }
             label6.Text = money.ToString();
         }
@@ -422,8 +432,8 @@ namespace talktalk
                     ListViewItem item = listView1.SelectedItems[0];
                     decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
                     SellItem(filePath, currentItemName, quantityToSell, price);
-                    totalMoney += (int)(price * quantityToSell);
-                    UpdateTotalMoneyLabel();
+                    /*totalMoney += (int)(price * quantityToSell);
+                    UpdateTotalMoneyLabel();*/
                 }
             }
             else
@@ -478,6 +488,8 @@ namespace talktalk
                         lines.RemoveAt(i);
                     }
                     itemUpdated = true;
+                    totalMoney += (int)(price * quantityToSell);
+                    UpdateTotalMoneyLabel();
                     break;
                 }
             }
@@ -628,6 +640,7 @@ namespace talktalk
                 }
                 currentIndex++;
 
+                UserTotalAsset();
 
                 if (listView1.SelectedItems.Count == 1)
                 {
@@ -666,7 +679,19 @@ namespace talktalk
                     accountForm.Show();
                 }
 
-               /* PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
+                if (!client.Connected)
+                {
+                    this.client.Connect(IPAddress.Parse("127.0.0.1"), 16000 + label2.Text.Length);
+                }
+                if (this.streamWrite == null)
+                {
+                    this.streamWrite = new StreamWriter(client.GetStream());
+                }
+
+                streamWrite.WriteLine(label2.Text + "," + label6.Text + "," + label15.Text);
+                streamWrite.Flush();
+
+/*                PacketClient.Client clientForm = new PacketClient.Client(label2.Text);
 
                 if (clientForm != null)
                 {
@@ -674,7 +699,8 @@ namespace talktalk
                     int.TryParse(label6.Text, out int total);
                     clientForm.TickByForm(label2.Text, total, label15.Text);
                     //clientForm.SendFile(filePath);
-                }*/
+                }
+*/
 
                 if (currentPlotIndex < lastTenData.Length)
                 {
@@ -687,7 +713,16 @@ namespace talktalk
                 }
 
                 dayCount++;
-                label15.Text = "DAY " + dayCount;
+                if(dayCount == 9)
+                {
+                    timer.Stop();
+                    this.Visible = false;
+                    double raiseRate = double.Parse(label6.Text) / 1000000 - (double)1;
+                    Ranking ranking = new Ranking(label2.Text, raiseRate);
+                    ranking.Show();
+
+                }
+                label15.Text = "DAY" + dayCount;
 
                 GameCount = true;
             }

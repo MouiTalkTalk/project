@@ -751,9 +751,9 @@
             this.label15.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label15.Location = new System.Drawing.Point(795, 97);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(73, 21);
+            this.label15.Size = new System.Drawing.Size(67, 21);
             this.label15.TabIndex = 21;
-            this.label15.Text = "DAY 1";
+            this.label15.Text = "DAY1";
             // 
             // label4
             // 

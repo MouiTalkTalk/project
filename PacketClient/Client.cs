@@ -21,6 +21,11 @@ namespace PacketClient
         NetworkStream stream = default(NetworkStream);
         Thread chat;
 
+        // rank 업데이트를 위한 것들
+        TcpListener listener;
+        Thread from_form1;
+
+
         string username = string.Empty;
         public const int PACKETSIZE = 1024 * 4;
 
@@ -39,7 +44,10 @@ namespace PacketClient
         {
             btnConnect.Enabled = false;
             txtUserName.Text = username;
-            timer1.Interval = 1000;
+
+            this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 16000 + username.Length);
+            this.from_form1 = new Thread(new ThreadStart(Rank_update));
+            from_form1.Start();
         }
 
         private void GetMessage() // 서버로부터 메시지 받는 함수, 스레드로 실행된다.
@@ -64,7 +72,14 @@ namespace PacketClient
                 byte[] buffer = new byte[PACKETSIZE];
                 Packet packet = new Packet();
 
-                stream.Read(buffer, 0, buffer.Length);
+                try
+                {
+                    stream.Read(buffer, 0, buffer.Length);
+                }
+                catch
+                {
+                    return;
+                }
                 packet = (Packet)Packet.Deserialize(buffer);
                 switch ((int)packet.Type)
                 {
@@ -132,7 +147,6 @@ namespace PacketClient
                     clientState.Text = "서버와 연결됨";
                     chat.IsBackground = true;
                     chat.Start();
-                    timer1.Start();
                 }
                 catch
                 {
@@ -176,35 +190,38 @@ namespace PacketClient
             client = null;
         }
 
-        int day_temp = 0;
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Rank_update()
         {
-/*            UserInfo send = new UserInfo();
-            byte[] buffer = new byte[PACKETSIZE];
+            listener.Start();
+            TcpClient tcpClient = this.listener.AcceptTcpClient();
+            StreamReader streamReader = new StreamReader(tcpClient.GetStream());
 
-            send.Type = (int)PacketType.사용자정보;
-            send.TotalAsset = 1000 + day_temp * 100;
-            send.raiseRate = (double)day_temp;
+            while(tcpClient.Connected)
+            {
+                string message = streamReader.ReadLine();
+                string[] info = new string[3];
+                info = message.Split(',');
 
-            buffer = Packet.Serialize(send);
-            stream.Write(buffer, 0, buffer.Length);
-            stream.Flush();
-            day_temp++;*/
+                UserInfo send = new UserInfo();
+                byte[] buffer = new byte[PACKETSIZE];
+                send.Type = (int)PacketType.사용자정보;
+                send.TotalAsset = Convert.ToInt32(info[1]);
+                send.raiseRate = (double)(Convert.ToInt32(info[1])) / 1000000 - (double)1;
+                send.dayDay = info[2];
+
+                buffer = Packet.Serialize(send);
+                try
+                {
+                    stream.Write(buffer, 0, buffer.Length);
+                }
+                catch
+                {
+                    return;
+                }
+                stream.Flush();
+            }
+
         }
 
-        public void TickByForm(string username, int totalAsset, string day)
-        {
-            UserInfo send = new UserInfo();
-            byte[] buffer = new byte[PACKETSIZE];
-            send.Type = (int)PacketType.사용자정보;
-            send.TotalAsset = totalAsset;
-            send.raiseRate = (double) (totalAsset / 1000000);
-            send.dayDay = day;
-
-            buffer = Packet.Serialize(send);
-            stream.Write(buffer, 0, buffer.Length);
-            stream.Flush();
-
-        }
     }
 }

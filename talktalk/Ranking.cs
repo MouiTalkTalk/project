@@ -13,10 +13,31 @@ namespace talktalk
 {
     public partial class Ranking : Form
     {
+
+        private string dataDirectory;
+        private void SetDataDirectory()
+        {
+            DirectoryInfo currentDir = new DirectoryInfo(Application.StartupPath);
+
+            DirectoryInfo dataDir = currentDir.Parent.Parent.Parent;
+
+            dataDirectory = Path.Combine(dataDir.FullName, "data");
+        }
+
         public Ranking()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            SetDataDirectory();
+        }
+
+        public Ranking(string name, double RaiseRate)
+        {
+            InitializeComponent();
+            SetDataDirectory();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            lblMyName.Text = name;
+            lblMyRatio.Text = FormatRatio(RaiseRate.ToString());
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
@@ -79,5 +100,13 @@ namespace talktalk
             }
         }
 
+        private void Ranking_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            string username = lblMyName.Text;
+            string filename = username + ".csv";
+            string filePath = Path.Combine(dataDirectory, filename);
+            if(File.Exists(filePath)) { File.Delete(filePath); }
+            Application.Exit();
+        }
     }
 }

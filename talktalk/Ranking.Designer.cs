@@ -78,7 +78,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 20);
             this.label5.TabIndex = 26;
-            this.label5.Text = "나의 등수";
+            this.label5.Text = "나의 수익";
             // 
             // lblMyRatio
             // 
@@ -98,9 +98,9 @@
             this.lblMyName.Location = new System.Drawing.Point(58, 192);
             this.lblMyName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMyName.Name = "lblMyName";
-            this.lblMyName.Size = new System.Drawing.Size(42, 20);
+            this.lblMyName.Size = new System.Drawing.Size(36, 20);
             this.lblMyName.TabIndex = 24;
-            this.lblMyName.Text = "최XX";
+            this.lblMyName.Text = "user";
             // 
             // lblMyRank
             // 
@@ -229,9 +229,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 241);
             this.Controls.Add(this.rankingPanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Ranking";
             this.Text = "Ranking";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Ranking_FormClosed);
             this.rankingPanel.ResumeLayout(false);
             this.rankingPanel.PerformLayout();
             this.ResumeLayout(false);

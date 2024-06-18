@@ -76,7 +76,6 @@ namespace PacketServer
             this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 15000);
             this.listener.Start();
             this.ServerOn = true;
-            this.ServerState.Text = "Run";
 
             while (this.ServerOn) // 서버가 종료되기 전까지는 계속 돈다.
             {
@@ -114,7 +113,7 @@ namespace PacketServer
                         newUser.networkstream = stream;
                         newUser.tcpclient = client;
                         newUser.userName = connected_user_name;
-                        newUser.totalAsset = 1000; // 기본 자산 설정
+                        newUser.totalAsset = 1000000; // 기본 자산 설정
                         Thread client_thread = new Thread(() => ClientHandler(newUser)); // 인자를 넣어주기 위해서 람다 표현식을 써줬다. 클라이언트에게 채팅을 받는 스레드를 개별로 만들어준다.
                         newUser.thread = client_thread;
                         this.users.Add(newUser); // 전부 설정해주고 list에 넣어준다.
@@ -258,7 +257,7 @@ namespace PacketServer
         {
             this.Invoke(new MethodInvoker(delegate ()
             {
-                UsrList.Items.Add(new ListViewItem(new string[] { newUser.userName, newUser.totalAsset.ToString(), newUser.raiseRate.ToString(), "DAY 1" }));
+                UsrList.Items.Add(new ListViewItem(new string[] { newUser.userName, newUser.totalAsset.ToString(), newUser.raiseRate.ToString() + "%", "DAY 0" }));
             }));
         }
 
@@ -269,7 +268,7 @@ namespace PacketServer
                 UsrList.Items.Clear();
                 foreach (User i in users)
                 {
-                    UsrList.Items.Add(new ListViewItem(new string[] { i.userName, i.totalAsset.ToString(), i.raiseRate.ToString(), i.dayDay }));
+                    UsrList.Items.Add(new ListViewItem(new string[] { i.userName, i.totalAsset.ToString(), i.raiseRate.ToString() + "%", i.dayDay }));
                 }
             }));
         }
@@ -351,6 +350,7 @@ namespace PacketServer
             this.UsrList.Columns.Add("TotalAsset", "총자산");
             this.UsrList.Columns.Add("RaiseRate", "수익률");
             this.UsrList.Columns.Add("dayDay", "라운드");
+            this.ServerState.Text = "Run";
         }
 
         private void Server_FormClosed(object sender, FormClosedEventArgs e)
